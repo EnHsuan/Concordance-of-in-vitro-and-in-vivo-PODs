@@ -1,0 +1,8 @@
+﻿Analysis,log10_PODratio,PODratio,PODratio CI cross 1,prediction interval lower,prediction interval upper,rho,prediction interval range_half,precision lower bound,precision upper bound,min in vivo_median in vivo,max in vivo_median in vivo
+"Paul Friedman et al., 2020 (n=448)",-1.26,0.05,N,-3.61,1.09,0.11,2.3495,0.004471982,223.6145199,1.62E-05,916.2753
+"Nicolas et al., 2022 (n=522)",-1.95,0.01,N,-4.46,0.56,0.17,2.51275,0.003070789,325.6491883,0.00012,10000
+ToxCast (n=15),-0.57,0.27,Y,-3.58,2.43,0.08,3.00335,0.000992316,1007.743487,0.000939855,109.5839
+ToxCast (n=41),-0.92,0.12,N,-3.80,1.96,0.00,2.8812,0.001314619,760.6765008,0.000300005,3232.777
+Six-cell-type assays (n=15),-0.18,0.67,Y,-3.10,2.75,0.41,2.925,0.001188502,841.3951416,0.000939855,109.5839
+Cardiomyocyte assays (n=41),0.18,1.51,Y,-2.62,2.97,0.11,2.7959,0.001599926,625.028758,0.000300005,3232.777
+ETAP (n=21),-0.16,0.69,Y,-1.21,0.89,0.43,1.04805,0.089526169,11.16991839,0.02,15

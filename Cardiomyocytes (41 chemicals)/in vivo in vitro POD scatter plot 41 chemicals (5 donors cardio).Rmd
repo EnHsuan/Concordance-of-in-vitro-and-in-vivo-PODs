@@ -1,0 +1,246 @@
+---
+title: "in vivo in vitro POD scatter plot 41 chemicals (5 donors cardio)"
+author: "En-Hsuan Lu"
+date: "2023-05-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(wCorr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## in vivo POD
+
+```{r read}
+#original in vivo POD
+origpod <- read.csv(file.path("POD database","original POD x Css for 41 chemicals.csv"))
+
+#original in vivo POD + DAF
+poddaf <- read.csv(file.path("POD database","original POD x DAF x Css for 41 chemicals.csv"))
+
+#BBMD
+BMD <- read.csv(file.path("POD database","BBMD x Css for 41 chemicals.csv"))
+BMD$Chemical <- origpod$Chemical
+
+#HED
+HED <- read.csv(file.path("POD database","HED x Css for 41 chemicals.csv"))
+HED$Chemical <- origpod$Chemical
+```
+
+## the most sensitive in vitro POD
+
+```{r read}
+#ToxCast active
+toxcast <- read.csv(file.path("POD database","41 chemicals toxcast POD.csv"))
+
+#cardiomyocytes (single donor)
+cardio.df <- read.csv(file.path("POD database","41 chemicals cardio 5 donors POD.csv"))
+cardio <- full_join(cardio.df, origpod[,c(1,2)], by="casn")
+```
+
+##in vivo vs ToxCast in vitro scatter plot
+
+```{r scatter}
+##traditional POD
+pod.tox.df <- full_join(origpod, toxcast, by="Chemical")
+
+pod.tox.s <- round(weightedCorr(log10(pod.tox.df$PODCss),log10(pod.tox.df$ac50.5perc), method=c("Spearman")), digits=2)
+
+pod.tox.scatter <- ggplot(pod.tox.df, aes(x=ac50.5perc, y=PODCss))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(Reg~POD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", pod.tox.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##traditional POD x DAF
+poddaf.tox.df <- full_join(poddaf, toxcast, by="Chemical")
+
+poddaf.tox.s <- round(weightedCorr(log10(poddaf.tox.df$poddaf.Css),log10(poddaf.tox.df$ac50.5perc), method=c("Spearman")), digits=2)
+
+poddaf.tox.scatter <- ggplot(poddaf.tox.df, aes(x=ac50.5perc, y=poddaf.Css))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(Reg~POD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", poddaf.tox.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##BBMD
+bbmd.tox.df <- full_join(BMD, toxcast, by="Chemical")
+
+wt.bmd.tox <- 1/(log10(bbmd.tox.df$BMD95.Css)-log10(bbmd.tox.df$BMD5.Css))^2
+
+bbmd.tox.w.s <- round(weightedCorr(log10(bbmd.tox.df$BMD50.Css),log10(bbmd.tox.df$ac50.5perc), method=c("Spearman"), weights=wt.bmd.tox), digits=2)
+
+bbmd.tox.scatter <- ggplot(bbmd.tox.df, aes(x=ac50.5perc, y=BMD50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=BMD5.Css, ymax=BMD95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(BMA~BMD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", bbmd.tox.w.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##HED
+hed.tox.df <- full_join(HED, toxcast, by="Chemical")
+
+wt.hed.tox <- 1/(log10(hed.tox.df$HED95.Css)-log10(hed.tox.df$HED5.Css))^2
+
+hed.tox.w.s <- round(weightedCorr(log10(hed.tox.df$HED50.Css),log10(hed.tox.df$ac50.5perc), method=c("Spearman"), weights=wt.hed.tox), digits=2)
+
+hed.tox.scatter <- ggplot(hed.tox.df, aes(x=ac50.5perc, y=HED50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=HED5.Css, ymax=HED95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(BMA~BMD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", hed.tox.w.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+```
+
+##in vivo POD vs iPSC+LCL POD scatter plot
+
+```{r scatter}
+##traditional POD
+pod.cardio.df <- full_join(origpod, cardio, by="Chemical")
+
+pod.car.s <- round(weightedCorr(log10(pod.cardio.df$PODCss),log10(pod.cardio.df$Min), method=c("Spearman")), digits=2)
+
+pod.cardio.scatter <- ggplot(pod.cardio.df, aes(x=Min, y=PODCss))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("hiPSC-CM POD (µM)")+ylab(bquote(Reg~POD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", pod.car.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##traditional POD x DAF
+poddaf.cardio.df <- full_join(poddaf, cardio, by="Chemical")
+
+poddaf.car.s <- round(weightedCorr(log10(poddaf.cardio.df$poddaf.Css),log10(poddaf.cardio.df$Min), method=c("Spearman")), digits=2)
+
+poddaf.cardio.scatter <- ggplot(poddaf.cardio.df, aes(x=Min, y=poddaf.Css))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("hiPSC-CM POD (µM)")+ylab(bquote(Reg~POD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", poddaf.car.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##BBMD
+bbmd.cardio.df <- full_join(BMD, cardio, by="Chemical")
+
+wt.bmd.cardio <- 1/(log10(bbmd.cardio.df$BMD95.Css)-log10(bbmd.cardio.df$BMD5.Css))^2
+
+bbmd.car.w.s <- round(weightedCorr(log10(bbmd.cardio.df$BMD50.Css),log10(bbmd.cardio.df$Min), method=c("Spearman"), weights=wt.bmd.cardio), digits=2)
+
+bbmd.cardio.scatter <- ggplot(bbmd.cardio.df, aes(x=Min, y=BMD50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=BMD5.Css, ymax=BMD95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("hiPSC-CM POD (µM)")+ylab(bquote(BMA~BMD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", bbmd.car.w.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+
+##HED
+hed.cardio.df <- full_join(HED, cardio, by="Chemical")
+
+wt.hed.cardio <- 1/(log10(hed.cardio.df$HED95.Css)-log10(hed.cardio.df$HED5.Css))^2
+
+hed.car.w.s <- round(weightedCorr(log10(hed.cardio.df$HED50.Css),log10(hed.cardio.df$Min), method=c("Spearman"), weights=wt.hed.cardio), digits=2)
+
+hed.cardio.scatter <- ggplot(hed.cardio.df, aes(x=Min, y=HED50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=HED5.Css, ymax=HED95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-3, 1e+6),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("hiPSC-CM POD (µM)")+ylab(bquote(BMA~BMD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", hed.car.w.s), parse = TRUE, 
+           x=0.1, y=7e+5)
+```
+
+##combine plots
+
+```{r ggarrange}
+scatter_41 <- ggarrange(pod.tox.scatter, pod.cardio.scatter, poddaf.tox.scatter, poddaf.cardio.scatter, 
+                     bbmd.tox.scatter, bbmd.cardio.scatter, hed.tox.scatter, hed.cardio.scatter,
+                     nrow = 4, ncol = 2, common.legend = TRUE, legend = "top")
+
+ggsave(scatter_41, file="in vivo in vitro scatter plot for 41 chemicals (5 donors cardio).pdf", width=8, height=14, scale=0.7)
+```

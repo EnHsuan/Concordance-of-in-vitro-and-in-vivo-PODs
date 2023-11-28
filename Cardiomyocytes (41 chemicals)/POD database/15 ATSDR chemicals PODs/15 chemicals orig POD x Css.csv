@@ -1,0 +1,16 @@
+Chemical,casn,POD,value,Sex,Bwa,DAF,Css_h,PODCss,Classification,UFs
+naphthalene,91-20-3,NOAEL,71,M,0.18,0.225187156,15.79,1121.09,PAH,10
+fluoranthene,206-44-0,NOAEL,125,M/F,0.0281,0.141547457,8.101,1012.625,PAH,10
+acenaphthene,83-32-9,NOAEL,175,M/F,0.0281,0.141547457,18.25,3193.75,PAH,10
+benzidine,92-87-5,LOAEL,2.7,M/F,0.0363,0.150904485,1.26,3.402,Intermediate,1
+p-cresol,106-44-5,NOAEL,5,F,3.93,0.486769802,0.1851,0.9255,Intermediate,10
+"1,2,3-trichlorobenzene",87-61-6,NOAEL,7.7,M,0.267,0.2485154,13.89,106.953,Intermediate,1
+dieldrin,60-57-1,NOAEL,0.005,M/F,0.3045,0.25681614,1624,8.12,Pesticide,1
+aldrin,309-00-2,LOAEL,0.025,M/F,0.4515,0.283393529,12690,317.25,Pesticide,1
+heptachlor,76-44-8,LOAEL,0.03,F,0.204,0.2323448,33.34,1.0002,Pesticide,1
+gamma-hexachlorocyclohexane,58-89-9,LOAEL,0.012,F,0.0246,0.136917596,205.5,2.466,Pesticide,1
+pentachlorophenol,87-86-5,LOAEL,1.5,M/F,10.45,0.621590778,10.52,15.78,Pesticide,1
+azinphos-methyl,86-50-0,BMDL,0.3,M,10.8,0.626731364,0.2244,0.06732,Pesticide,1
+dicofol,115-32-2,NOAEL,0.12,M/F,10.45,0.621590778,54.82,6.5784,Pesticide,1
+endosulfan,115-29-7,NOAEL,0.6,M/F,0.4305,0.280039168,66.8,40.08,Pesticide,1
+chlorpyrifos,2921-88-2,NOAEL,0.1,M/F,0.3045,0.25681614,40.52,4.052,Pesticide,1

@@ -1,0 +1,90 @@
+---
+title: "POD x Css"
+author: "En-Hsuan Lu"
+date: "2023-04-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(httk)
+library(readr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##traditional in vivo PODs x Css
+
+```{r origPOD}
+set.seed(3159)
+
+origpod <- read.csv("traditional in vivo PODs.csv")
+
+for (i in 1:26){
+  origpod$Css_h[i] <- calc_analytic_css(chem.cas=origpod$casn[i],
+                                        model="3compartmentss",
+                                        species="Human",
+                                        output.units = "uM")
+}
+
+origpod$PODCss <- origpod$value*origpod$Css_h
+
+write.csv(origpod, file="26 cardio chemicals orig POD x Css.csv", row.names = FALSE)
+```
+
+##traditional in vivo PODs x default fixed DAF x Css
+
+```{r httk}
+set.seed(3159)
+
+origpoddaf <- read.csv("traditional in vivo PODs.csv")
+
+origpoddaf$poddaf <- (origpoddaf$value/origpoddaf$UFs)*origpoddaf$DAF
+
+for (i in 1:26){
+  origpoddaf$Css_h[i] <- calc_analytic_css(chem.cas=origpoddaf$casn[i], model="3compartmentss",
+                                           species="Human", output.units = "uM")
+}
+
+origpoddaf$poddaf.Css <- origpoddaf$poddaf*origpoddaf$Css_h
+
+write.csv(origpoddaf, file="26 cardio chemicals original POD x DAF x Css.csv", row.names = FALSE)
+```
+
+##in vivo BBMD x Css
+
+```{r bmd}
+set.seed(3159)
+
+BBMD <- read.csv("BBMD for cardio 26 chemicals.csv")
+
+for (i in 1:26){
+  BBMD$Css_h[i] <- calc_analytic_css(chem.cas=BBMD$CAS[i], model="3compartmentss",
+                                     species="Human", output.units = "uM")
+}
+
+BBMD$BMD50.Css <- BBMD$X50.*BBMD$Css_h
+BBMD$BMD5.Css <- BBMD$X5.*BBMD$Css_h
+BBMD$BMD95.Css <- BBMD$X95.*BBMD$Css_h
+
+write.csv(BBMD, file="26 cardio chemicals BBMD x Css.csv", row.names = FALSE)
+```
+
+##HED x Css
+
+```{r httk}
+set.seed(3159)
+
+HED <- read.csv("HED for cardio 26 chemicals.csv")
+
+for (i in 1:26){
+  HED$Css[i] <- calc_analytic_css(chem.cas=HED$CAS[i], model="3compartmentss",
+                                  species="Human", output.units = "uM")
+}
+
+HED$HED50.Css <- HED$X50.*HED$Css
+HED$HED5.Css <- HED$X5.*HED$Css
+HED$HED95.Css <- HED$X95.*HED$Css
+
+write.csv(HED, file="26 cardio chemicals HED x Css.csv", row.names = FALSE)
+```

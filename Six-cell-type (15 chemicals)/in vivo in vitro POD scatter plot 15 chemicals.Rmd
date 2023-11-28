@@ -1,0 +1,256 @@
+---
+title: "in vivo in vitro POD scatter plot 15 chemicals"
+author: "En-Hsuan Lu"
+date: "2023-05-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(Hmisc)
+library(weights)
+library(wCorr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## in vivo POD
+
+```{r read}
+#original in vivo POD
+origpod <- read.csv(file.path("POD database","15 chemicals orig POD x Css.csv"))
+
+#original in vivo POD + DAF
+poddaf <- read.csv(file.path("POD database","original POD x DAF x Css for 15 chemicals.csv"))
+
+#BBMD
+BMD <- read.csv(file.path("POD database","BMD x Css for 15 chemicals.csv"))
+BMD$Chemical <- origpod$Chemical
+BMD$Classification <- origpod$Classification
+
+#HED
+HED <- read.csv(file.path("POD database","HED x Css for 15 chemicals.csv"))
+HED$Chemical <- origpod$Chemical
+HED$Classification <- origpod$Classification
+```
+
+## the most sensitive in vitro POD
+
+```{r read}
+#ToxCast active
+toxcast <- read.csv(file.path("POD database","toxcast ac50.csv"))
+tox.5perc <- data.frame(sapply(toxcast, quantile, prob=0.05, na.rm = T))
+tox.5perc$Chemical <- origpod$Chemical
+colnames(tox.5perc)[1] <- "ToxCast"
+write.csv(tox.5perc, file="toxcast 5perc for 15 chemicals.csv", row.names = FALSE)
+
+#iPSC+LCL
+cell.t <- read.csv(file.path("POD database","cellline POD distribution for 15 chemicals.csv"))
+cell.min <- data.frame(sapply(cell.t[2:16], min, na.rm=T))
+cell.min$Chemical <- origpod$Chemical
+colnames(cell.min)[1] <- "iPSCLCL"
+```
+
+##in vivo vs ToxCast in vitro scatter plot
+
+```{r scatter}
+##traditional POD
+pod.tox.df <- full_join(origpod, tox.5perc, by="Chemical")
+
+pod.tox.s <- round((weightedCorr(log10(pod.tox.df$PODCss),log10(pod.tox.df$ToxCast), method=c("Spearman"))), digits=2)
+
+pod.tox.scatter <- ggplot(pod.tox.df, aes(x=ToxCast, y=PODCss))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(Reg~POD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", pod.tox.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##traditional POD x DAF
+poddaf.tox.df <- full_join(poddaf, tox.5perc, by="Chemical")
+
+poddaf.tox.s <- round((weightedCorr(log10(poddaf.tox.df$poddaf.Css),log10(poddaf.tox.df$ToxCast), method=c("Spearman"))), digits=2)
+
+poddaf.tox.scatter <- ggplot(poddaf.tox.df, aes(x=ToxCast, y=poddaf.Css))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(Reg~POD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", poddaf.tox.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##BBMD
+bbmd.tox.df <- full_join(BMD, tox.5perc, by="Chemical")
+
+wt.bmd.tox <- 1/(log10(bbmd.tox.df$BMD95.Css)-log10(bbmd.tox.df$BMD5.Css))^2
+
+bbmd.tox.w.s <- round((weightedCorr(log10(bbmd.tox.df$BMD50.Css),log10(bbmd.tox.df$ToxCast), method=c("Spearman"), weights=wt.bmd.tox)), digits=2)
+
+bbmd.tox.scatter <- ggplot(bbmd.tox.df, aes(x=ToxCast, y=BMD50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=BMD5.Css, ymax=BMD95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(BMA~BMD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", bbmd.tox.w.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##HED
+hed.tox.df <- full_join(HED, tox.5perc, by="Chemical")
+
+wt.hed.tox <- 1/(log10(hed.tox.df$HED95.Css)-log10(hed.tox.df$HED5.Css))^2
+
+hed.tox.w.s <- round((weightedCorr(log10(hed.tox.df$HED50.Css),log10(hed.tox.df$ToxCast), method=c("Spearman"), weights=wt.hed.tox)), digits=2)
+
+hed.tox.scatter <- ggplot(hed.tox.df, aes(x=ToxCast, y=HED50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=HED5.Css, ymax=HED95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("ToxCast POD (µM)")+ylab(bquote(BMA~BMD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", hed.tox.w.s), parse = TRUE, 
+           x=0.002, y=7000)
+```
+
+##in vivo POD vs iPSC+LCL POD scatter plot
+
+```{r scatter}
+##traditional POD
+pod.cell.df <- full_join(origpod, cell.min, by="Chemical")
+
+pod.cell.s <- round((weightedCorr(log10(pod.cell.df$PODCss),log10(pod.cell.df$iPSCLCL), method=c("Spearman"))), digits=2)
+
+pod.cell.scatter <- ggplot(pod.cell.df, aes(x=iPSCLCL, y=PODCss))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("six-cell-type POD (µM)")+ylab(bquote(Reg~POD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", pod.cell.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##traditional POD x DAF
+poddaf.cell.df <- full_join(poddaf, cell.min, by="Chemical")
+
+poddaf.cell.s <- round((weightedCorr(log10(poddaf.cell.df$poddaf.Css),log10(poddaf.cell.df$iPSCLCL), method=c("Spearman"))), digits=2)
+
+poddaf.cell.scatter <- ggplot(poddaf.cell.df, aes(x=iPSCLCL, y=poddaf.Css))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("six-cell-type POD (µM)")+ylab(bquote(Reg~POD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", poddaf.cell.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##BBMD
+bbmd.cell.df <- full_join(BMD, cell.min, by="Chemical")
+
+wt.bmd.cell <- 1/(log10(bbmd.cell.df$BMD95.Css)-log10(bbmd.cell.df$BMD5.Css))^2
+
+bbmd.cell.w.s <- round((weightedCorr(log10(bbmd.cell.df$BMD50.Css),log10(bbmd.cell.df$iPSCLCL), method=c("Spearman"), weights=wt.bmd.cell)), digits=2)
+
+bbmd.cell.scatter <- ggplot(bbmd.cell.df, aes(x=iPSCLCL, y=BMD50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=BMD5.Css, ymax=BMD95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("six-cell-type POD (µM)")+ylab(bquote(BMA~BMD[A]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", bbmd.cell.w.s), parse = TRUE, 
+           x=0.002, y=7000)
+
+##HED
+hed.cell.df <- full_join(HED, cell.min, by="Chemical")
+
+wt.hed.cell <- 1/(log10(hed.cell.df$HED95.Css)-log10(hed.cell.df$HED5.Css))^2
+
+hed.cell.w.s <- round((weightedCorr(log10(hed.cell.df$HED50.Css),log10(hed.cell.df$iPSCLCL), method=c("Spearman"), weights=wt.hed.cell)), digits=2)
+
+hed.cell.scatter <- ggplot(hed.cell.df, aes(x=iPSCLCL, y=HED50.Css))+
+  geom_point()+
+  geom_errorbar(aes(ymin=HED5.Css, ymax=HED95.Css))+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  geom_vline(aes(xintercept=300), color="red", linetype="dashed")+
+  xlab("six-cell-type POD (µM)")+ylab(bquote(BMA~BMD[H]~x~Css~(µM)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", hed.cell.w.s), parse = TRUE, 
+           x=0.002, y=7000)
+```
+
+##combine plots
+
+```{r ggarrange}
+scatter <- ggarrange(pod.tox.scatter, pod.cell.scatter, poddaf.tox.scatter, poddaf.cell.scatter, 
+                     bbmd.tox.scatter, bbmd.cell.scatter, hed.tox.scatter, hed.cell.scatter,
+                     nrow = 4, ncol = 2, common.legend = TRUE, legend = "top")
+
+ggsave(scatter, file="in vivo in vitro scatter plot for 15 chemicals.pdf", width=8, height=14, scale=0.7)
+```

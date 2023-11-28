@@ -1,0 +1,92 @@
+
+Random-Effects Model (k = 15; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 2.4253 (SE = 1.0564)
+tau (square root of estimated tau^2 value):      1.5573
+I^2 (total heterogeneity / total variability):   86.78%
+H^2 (total variability / sampling variability):  7.56
+
+Test for Heterogeneity:
+Q(df = 14) = 105.8812, p-val < .0001
+
+Model Results:
+
+estimate      se     zval    pval    ci.lb    ci.ub    
+ -0.8976  0.4317  -2.0794  0.0376  -1.6076  -0.1876  * 
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+    pred     se   ci.lb   ci.ub   pi.lb  pi.ub 
+ -0.8976 0.4317 -1.6076 -0.1876 -3.5557 1.7606 
+
+
+Random-Effects Model (k = 15; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 1.6200 (SE = 0.7520)
+tau (square root of estimated tau^2 value):      1.2728
+I^2 (total heterogeneity / total variability):   81.43%
+H^2 (total variability / sampling variability):  5.38
+
+Test for Heterogeneity:
+Q(df = 14) = 75.3745, p-val < .0001
+
+Model Results:
+
+estimate      se     zval    pval    ci.lb   ci.ub    
+ -0.0682  0.3642  -0.1871  0.8515  -0.6672  0.5309    
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+    pred     se   ci.lb  ci.ub   pi.lb  pi.ub 
+ -0.0682 0.3642 -0.6672 0.5309 -2.2458 2.1094 
+
+
+Random-Effects Model (k = 15; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 3.2925 (SE = 1.3181)
+tau (square root of estimated tau^2 value):      1.8145
+I^2 (total heterogeneity / total variability):   97.57%
+H^2 (total variability / sampling variability):  41.13
+
+Test for Heterogeneity:
+Q(df = 14) = 342.7908, p-val < .0001
+
+Model Results:
+
+estimate      se     zval    pval    ci.lb    ci.ub    
+ -0.9422  0.4824  -1.9529  0.0508  -1.7357  -0.1486  . 
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+    pred     se   ci.lb   ci.ub   pi.lb  pi.ub 
+ -0.9422 0.4824 -1.7357 -0.1486 -4.0305 2.1462 
+
+
+Random-Effects Model (k = 15; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 2.9495 (SE = 1.2052)
+tau (square root of estimated tau^2 value):      1.7174
+I^2 (total heterogeneity / total variability):   95.24%
+H^2 (total variability / sampling variability):  21.01
+
+Test for Heterogeneity:
+Q(df = 14) = 191.8643, p-val < .0001
+
+Model Results:
+
+estimate      se     zval    pval    ci.lb   ci.ub    
+ -0.1755  0.4613  -0.3804  0.7037  -0.9343  0.5833    
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+    pred     se   ci.lb  ci.ub   pi.lb  pi.ub 
+ -0.1755 0.4613 -0.9343 0.5833 -3.1005 2.7495 
+

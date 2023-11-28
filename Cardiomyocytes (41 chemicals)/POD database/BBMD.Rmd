@@ -1,0 +1,404 @@
+---
+title: "BBMD"
+author: "En-Hsuan Lu"
+date: "2023-04-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(readr)
+
+probs <- c(0.5,0.05,0.95)
+set.seed(3159)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## dose response data
+
+```{r read}
+datafolder <- "BBMD data input"
+```
+
+## Nitroaniline, 4-
+
+```{r 4-Nitroaniline}
+bmd_nitro.bmds <- fread(file.path(datafolder,"nitroaniline-4-bmds.csv"))
+bmd.nitro <- bmd_nitro.bmds[15001:29815,]$model_average[sample.int(14815,10000)]
+cat("bmd.nitro",quantile(bmd.nitro,prob=probs),"\n")
+
+bmd.nitro.df <- data.frame(t(quantile(bmd.nitro,prob=probs)))
+bmd.nitro.df$CAS <- "100-01-6"
+```
+
+## Caprolactam
+
+```{r Caprolactam}
+##sensitive
+##males
+bmd_capro.m.bmds <- fread(file.path(datafolder,"caprolactam-males-bmds.csv"))
+bmd.capro.m <- bmd_capro.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.capro.m",quantile(bmd.capro.m,prob=probs),"\n")
+
+bmd.capro.m.df <- data.frame(t(quantile(bmd.capro.m,prob=probs)))
+bmd.capro.m.df$CAS <- "105-60-2"
+
+##females
+bmd_capro.f.bmds <- fread(file.path(datafolder,"caprolactam-females-bmds.csv"))
+bmd.capro.f <- bmd_capro.f.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.capro.f",quantile(bmd.capro.f,prob=probs),"\n")
+####bmd.capro.f 333.4456 123.7227 442.9512 
+
+bmd.capro.f.df <- data.frame(t(quantile(bmd.capro.f,prob=probs)))
+bmd.capro.f.df$CAS <- "105-60-2"
+```
+
+## Dichlorobenzene, 1,4-
+
+```{r 1,4-Dichlorobenzene}
+bmd_14dcb.bmds <- fread(file.path(datafolder,"dichlorobenzene-14-bmds.csv"))
+bmd.14dcb <- bmd_14dcb.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.14dcb",quantile(bmd.14dcb,prob=probs),"\n")
+
+bmd.14dcb.df <- data.frame(t(quantile(bmd.14dcb,prob=probs)))
+bmd.14dcb.df$CAS <- "106-46-7"
+```
+
+## Chloroaniline, p-
+
+```{r p-Chloroaniline}
+##sensitive
+##males
+bmd_chloro.m.bmds <- fread(file.path(datafolder,"chloroaniline-p-males-bmds.csv"))
+bmd.chloro.m <- bmd_chloro.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.chloro.m",quantile(bmd.chloro.m,prob=probs),"\n")
+
+bmd.chloro.m.df <- data.frame(t(quantile(bmd.chloro.m,prob=probs)))
+bmd.chloro.m.df$CAS <- "106-47-8"
+```
+
+## Phenol
+
+```{r phenol}
+bmd_phenol.bmds <- fread(file.path(datafolder,"phenol-bmds.csv"))
+bmd.phenol <- bmd_phenol.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.phenol",quantile(bmd.phenol,prob=probs),"\n")
+
+bmd.phenol.df <- data.frame(t(quantile(bmd.phenol,prob=probs)))
+bmd.phenol.df$CAS <- "108-95-2"
+```
+
+## Tris(2-chloroethyl)phosphate
+
+```{r Tris(2-chloroethyl)phosphate}
+bmd_tcep.bmds <- fread(file.path(datafolder,"tris2-chloroethylphosphate-bmds.csv"))
+bmd.tcep <- bmd_tcep.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.tcep",quantile(bmd.tcep,prob=probs),"\n")
+
+bmd.tcep.df <- data.frame(t(quantile(bmd.tcep,prob=probs)))
+bmd.tcep.df$CAS <- "115-96-8"
+```
+
+## ~Octyl Phthalate, di-N-
+
+```{r di-N-OctylPhthalate}
+bmd_dnop.bmds <- fread(file.path(datafolder,"di-n-octyl-phthalate-vacuolation-bmds.csv"))
+bmd.dnop <- bmd_dnop.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.dnop",quantile(bmd.dnop,prob=probs),"\n")
+
+bmd.dnop.df <- data.frame(t(quantile(bmd.dnop,prob=probs)))
+bmd.dnop.df$CAS <- "117-84-0"
+```
+
+## Tris(1,3-Dichloro-2-propyl) Phosphate
+
+```{r Tris(1,3-Dichloro-2-propyl)Phosphate}
+bmd_tdcpp.bmds <- fread(file.path(datafolder,"tris13-dichloro-2-propyl-phosphate-bmds.csv"))
+bmd.tdcpp <- bmd_tdcpp.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.tdcpp",quantile(bmd.tdcpp,prob=probs),"\n")
+
+bmd.tdcpp.df <- data.frame(t(quantile(bmd.tdcpp,prob=probs)))
+bmd.tdcpp.df$CAS <- "13674-87-8"
+```
+
+## Mercaptobenzothiazole, 2-
+
+```{r 2-Mercaptobenzothiazole}
+bmd_2mbt.bmds <- fread(file.path(datafolder,"2-mercaptobenzothiazole-bmds.csv"))
+bmd.2mbt <- bmd_2mbt.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.2mbt",quantile(bmd.2mbt,prob=probs),"\n")
+
+bmd.2mbt.df <- data.frame(t(quantile(bmd.2mbt,prob=probs)))
+bmd.2mbt.df$CAS <- "149-30-4"
+```
+
+## ~Perfluorooctanesulfonic acid (PFOS)
+
+```{r PFOS}
+bmd_pfos.bmds <- fread(file.path(datafolder,"pfos-bmds.csv"))
+bmd.pfos <- bmd_pfos.bmds[1:14492,]$model_average[sample.int(14492,10000)]
+cat("bmd.pfos",quantile(bmd.pfos,prob=probs),"\n")
+
+bmd.pfos.df <- data.frame(t(quantile(bmd.pfos,prob=probs)))
+bmd.pfos.df$CAS <- "1763-23-1"
+```
+
+## Mirex
+
+```{r mirex}
+##Hepatocytomegaly
+bmd_mirex.hep.bmds <- fread(file.path(datafolder,"mirex-hepatocytomegaly-bmds.csv"))
+bmd.mirex.hep <- bmd_mirex.hep.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mirex.hep",quantile(bmd.mirex.hep,prob=probs),"\n")
+###bmd.mirex.hep 0.2494828 0.1122729 0.4153609
+
+bmd.mirex.hep.df <- data.frame(t(quantile(bmd.mirex.hep,prob=probs)))
+bmd.mirex.hep.df$CAS <- "2385-85-5"
+
+##Metamorphosis
+bmd_mirex.meta.bmds <- fread(file.path(datafolder,"mirex-metamorphosis-bmds.csv"))
+bmd.mirex.meta <- bmd_mirex.meta.bmds[15001:29994,]$model_average[sample.int(14994,10000)]
+cat("bmd.mirex.meta",quantile(bmd.mirex.meta,prob=probs),"\n")
+###bmd.mirex.meta 1.003618 0.5082258 2.403268
+
+bmd.mirex.meta.df <- data.frame(t(quantile(bmd.mirex.meta,prob=probs)))
+bmd.mirex.meta.df$CAS <- "2385-85-5"
+
+##the most sensitive
+##Angiectasis
+bmd_mirex.angie.bmds <- fread(file.path(datafolder,"mirex-angiectasis-bmds.csv"))
+bmd.mirex.angie <- bmd_mirex.angie.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mirex.angie",quantile(bmd.mirex.angie,prob=probs),"\n")
+
+bmd.mirex.angie.df <- data.frame(t(quantile(bmd.mirex.angie,prob=probs)))
+bmd.mirex.angie.df$CAS <- "2385-85-5"
+
+##Cystic follicles
+bmd_mirex.foll.bmds <- fread(file.path(datafolder,"mirex-cystic-follicles-bmds.csv"))
+bmd.mirex.foll <- bmd_mirex.foll.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mirex.foll",quantile(bmd.mirex.foll,prob=probs),"\n")
+###bmd.mirex.foll 3.692247 2.092638 8.659004
+
+bmd.mirex.foll.df <- data.frame(t(quantile(bmd.mirex.foll,prob=probs)))
+bmd.mirex.foll.df$CAS <- "2385-85-5"
+```
+
+## ~Potassium perfluorobutanesulfonate
+
+```{r kPFBS}
+bmd_pfbs.bmds <- fread(file.path(datafolder,"pfbs-bmds.csv"))
+bmd.pfbs <- bmd_pfbs.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.pfbs",quantile(bmd.pfbs,prob=probs),"\n")
+
+bmd.pfbs.df <- data.frame(t(quantile(bmd.pfbs,prob=probs)))
+bmd.pfbs.df$CAS <- "29420-49-3"
+```
+
+## ~Perfluorononanoic acid (PFNA)
+
+```{r PFNA}
+##sensitive
+##Decreased body weight
+bmd_pfna.bw.bmds <- fread(file.path(datafolder,"pfna-decreased-bw-bmds.csv"))
+bmd.pfna.bw <- bmd_pfna.bw.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.pfna.bw",quantile(bmd.pfna.bw,prob=probs),"\n")
+
+bmd.pfna.bw.df <- data.frame(t(quantile(bmd.pfna.bw,prob=probs)))
+bmd.pfna.bw.df$CAS <- "375-95-1"
+
+##delayed Eye opening
+bmd_pfna.eye.bmds <- fread(file.path(datafolder,"pfna-eye-opening-bmds.csv"))
+bmd.pfna.eye <- bmd_pfna.eye.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.pfna.eye",quantile(bmd.pfna.eye,prob=probs),"\n")
+##bmd.pfna.eyes 2.067733 1.711765 2.451973 
+
+bmd.pfna.eye.df <- data.frame(t(quantile(bmd.pfna.eye,prob=probs)))
+bmd.pfna.eye.df$CAS <- "375-95-1"
+```
+
+## DDE, p,p'-
+
+```{r DDE}
+bmd_dde.bmds <- fread(file.path(datafolder,"dde-pp-bmds.csv"))
+bmd.dde <- bmd_dde.bmds[1:14741,]$model_average[sample.int(14741,10000)]
+cat("bmd.dde",quantile(bmd.dde,prob=probs),"\n")
+
+bmd.dde.df <- data.frame(t(quantile(bmd.dde,prob=probs)))
+bmd.dde.df$CAS <- "72-55-9"
+```
+
+## Cacodylic Acid
+
+```{r CacodylicAcid}
+bmd_caco.bmds <- fread(file.path(datafolder,"cacodylic-acid-bmds.csv"))
+bmd.caco <- bmd_caco.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.caco",quantile(bmd.caco,prob=probs),"\n")
+
+bmd.caco.df <- data.frame(t(quantile(bmd.caco,prob=probs)))
+bmd.caco.df$CAS <- "75-60-5"
+```
+
+## Hexachlorocyclopentadiene
+
+```{r HCCPD}
+bmd_hccpd.bmds <- fread(file.path(datafolder,"hexachlorocyclopentadiene-bmds.csv"))
+bmd.hccpd <- bmd_hccpd.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.hccpd",quantile(bmd.hccpd,prob=probs),"\n")
+
+bmd.hccpd.df <- data.frame(t(quantile(bmd.hccpd,prob=probs)))
+bmd.hccpd.df$CAS <- "77-47-4"
+```
+
+## Methyl Ethyl Ketone (2-Butanone)
+
+```{r MEK}
+bmd_mek.bmds <- fread(file.path(datafolder,"methyl-ethyl-ketone-bmds.csv"))
+bmd.mek <- bmd_mek.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.mek",quantile(bmd.mek,prob=probs),"\n")
+
+bmd.mek.df <- data.frame(t(quantile(bmd.mek,prob=probs)))
+bmd.mek.df$CAS <- "78-93-3"
+```
+
+## ~Butyl Benzyl Phthalate
+
+```{r ButylBenzylPhthalate}
+bmd_bbp.bmds <- fread(file.path(datafolder,"butyl-benzyl-phthalate-bmds.csv"))
+bmd.bbp <- bmd_bbp.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.bbp",quantile(bmd.bbp,prob=probs),"\n")
+
+bmd.bbp.df <- data.frame(t(quantile(bmd.bbp,prob=probs)))
+bmd.bbp.df$CAS <- "85-68-7"
+```
+
+## Biphenyl, 1,1'-
+
+```{r 1,1-Biphenyl}
+bmd_biphenyl.bmds <- fread(file.path(datafolder,"biphenyl-11-bmds.csv"))
+bmd.biphenyl <- bmd_biphenyl.bmds[15001:29950,]$model_average[sample.int(14950,10000)]
+cat("bmd.biphenyl",quantile(bmd.biphenyl,prob=probs),"\n")
+
+bmd.biphenyl.df <- data.frame(t(quantile(bmd.biphenyl,prob=probs)))
+bmd.biphenyl.df$CAS <- "92-52-4"
+```
+
+## Phenothiazine
+
+```{r Phenothiazine}
+bmd_ptz.bmds <- fread(file.path(datafolder,"phenothiazine-bmds.csv"))
+bmd.ptz <- bmd_ptz.bmds[1:14957,]$model_average[sample.int(14957,10000)]
+cat("bmd.ptz",quantile(bmd.ptz,prob=probs),"\n")
+
+bmd.ptz.df <- data.frame(t(quantile(bmd.ptz,prob=probs)))
+bmd.ptz.df$CAS <- "92-84-2"
+```
+
+## Trichlorophenoxyacetic Acid, 2,4,5-
+
+```{r 2,4,5-TCP}
+##males
+bmd_245tcp.m.bmds <- fread(file.path(datafolder,"245-tcp-acid-males-bmds.csv"))
+bmd.245tcp.m <- bmd_245tcp.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.245tcp.m",quantile(bmd.245tcp.m,prob=probs),"\n")
+##bmd.245tcp.m 22.63035 14.90275 25.46947
+
+bmd.245tcp.m.df <- data.frame(t(quantile(bmd.245tcp.m,prob=probs)))
+bmd.245tcp.m.df$CAS <- "93-76-5"
+
+##senstivie
+##females
+bmd_245tcp.f.bmds <- fread(file.path(datafolder,"245-tcp-acid-females-bmds.csv"))
+bmd.245tcp.f <- bmd_245tcp.f.bmds[1:14680,]$model_average[sample.int(14680,10000)]
+cat("bmd.245tcp.f",quantile(bmd.245tcp.f,prob=probs),"\n")
+
+bmd.245tcp.f.df <- data.frame(t(quantile(bmd.245tcp.f,prob=probs)))
+bmd.245tcp.f.df$CAS <- "93-76-5"
+```
+
+## Tetrachlorobenzene, 1,2,4,5-
+
+```{r 1,2,4,5-TCB}
+bmd_1245tcb.bmds <- fread(file.path(datafolder,"1245-tcb-bmds.csv"))
+bmd.1245tcb <- bmd_1245tcb.bmds[15001:29997,]$model_average[sample.int(14997,10000)]
+cat("bmd.1245tcb",quantile(bmd.1245tcb,prob=probs),"\n")
+
+bmd.1245tcb.df <- data.frame(t(quantile(bmd.1245tcb,prob=probs)))
+bmd.1245tcb.df$CAS <- "95-94-3"
+```
+
+## Nitrobenzene
+
+```{r Nitrobenzene}
+bmd_nb.bmds <- fread(file.path(datafolder,"nitrobenzene-bmds.csv"))
+bmd.nb <- bmd_nb.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.nb",quantile(bmd.nb,prob=probs),"\n")
+
+bmd.nb.df <- data.frame(t(quantile(bmd.nb,prob=probs)))
+bmd.nb.df$CAS <- "98-95-3"
+```
+
+## Nitrotoluene, m-
+
+```{r m-Nitrotoluene}
+bmd_mnt.bmds <- fread(file.path(datafolder,"nitrotoluene-m-bmds.csv"))
+bmd.mnt <- bmd_mnt.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mnt",quantile(bmd.mnt,prob=probs),"\n")
+
+bmd.mnt.df <- data.frame(t(quantile(bmd.mnt,prob=probs)))
+bmd.mnt.df$CAS <- "99-08-1"
+```
+
+## Dinitrobenzene, 1,3-
+
+```{r 1,3-Dinitrobenzene}
+##sensitive
+##males
+bmd_13dnb.m.bmds <- fread(file.path(datafolder,"13-dnb-males-bmds.csv"))
+bmd.13dnb.m <- bmd_13dnb.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.13dnb.m",quantile(bmd.13dnb.m,prob=probs),"\n")
+
+bmd.13dnb.m.df <- data.frame(t(quantile(bmd.13dnb.m,prob=probs)))
+bmd.13dnb.m.df$CAS <- "99-65-0"
+
+##females
+bmd_13dnb.f.bmds <- fread(file.path(datafolder,"13-dnb-females-bmds.csv"))
+bmd.13dnb.f <- bmd_13dnb.f.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.13dnb.f",quantile(bmd.13dnb.f,prob=probs),"\n")
+##bmd.13dnb.f 0.8209425 0.6559143 1.144911 
+
+bmd.13dnb.f.df <- data.frame(t(quantile(bmd.13dnb.f,prob=probs)))
+bmd.13dnb.f.df$CAS <- "99-65-0"
+```
+
+## Nitrotoluene, p-
+
+```{r p-Nitrotoluene}
+##sensitive
+bmd_pnt.m.bmds <- fread(file.path(datafolder,"nitrotoluene-p-males-bmds.csv"))
+bmd.pnt.m <- bmd_pnt.m.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.pnt.m",quantile(bmd.pnt.m,prob=probs),"\n")
+
+bmd.pnt.m.df <- data.frame(t(quantile(bmd.pnt.m,prob=probs)))
+bmd.pnt.m.df$CAS <- "99-99-0"
+
+##females
+bmd_pnt.f.bmds <- fread(file.path(datafolder,"nitrotoluene-p-females-bmds.csv"))
+bmd.pnt.f <- bmd_pnt.f.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.pnt.f",quantile(bmd.pnt.f,prob=probs),"\n")
+##bmd.pnt.f 8.727512 4.965669 18.96776 
+
+bmd.pnt.f.df <- data.frame(t(quantile(bmd.pnt.f,prob=probs)))
+bmd.pnt.f.df$CAS <- "99-99-0"
+```
+##combine into dataframe
+the most sensitive PODs
+
+```{r combine}
+BBMD <- rbind(bmd.nitro.df, bmd.capro.m.df, bmd.14dcb.df, bmd.chloro.m.df, bmd.phenol.df, 
+              bmd.tcep.df, bmd.dnop.df, bmd.tdcpp.df, bmd.2mbt.df, bmd.pfos.df, 
+              bmd.mirex.angie.df, bmd.pfbs.df, bmd.pfna.bw.df, bmd.dde.df, bmd.caco.df, 
+              bmd.hccpd.df, bmd.mek.df, bmd.bbp.df, bmd.biphenyl.df, bmd.ptz.df, 
+              bmd.245tcp.f.df, bmd.1245tcb.df, bmd.nb.df, bmd.mnt.df, bmd.13dnb.m.df, 
+              bmd.pnt.m.df)
+write.csv(BBMD, file="BBMD for cardio 26 chemicals.csv", row.names = FALSE)
+```

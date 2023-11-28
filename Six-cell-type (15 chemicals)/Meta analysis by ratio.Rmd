@@ -1,0 +1,178 @@
+---
+title: "Meta analysis by ratio"
+author: "En-Hsuan Lu"
+date: "2023-05-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(metafor)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## in vivo POD
+
+```{r read}
+#original in vivo POD
+origpod <- read.csv(file.path("POD database","15 chemicals orig POD x Css.csv"))
+origpod <- origpod[order(origpod$Chemical),]
+
+#original in vivo POD + DAF
+poddaf <- read.csv(file.path("POD database","original POD x DAF x Css for 15 chemicals.csv"))
+poddaf <- poddaf[order(poddaf$Chemical),]
+
+#BBMD
+BMD.df <- read.csv(file.path("POD database","BMD x Css for 15 chemicals.csv"))
+BMD <- merge(BMD.df, origpod[,c(1,2)], by="CAS")
+
+#HED
+HED.df <- read.csv(file.path("POD database","HED x Css for 15 chemicals.csv"))
+HED <- merge(HED.df, origpod[,c(1,2)], by="CAS")
+```
+
+## the most sensitive in vitro POD
+
+```{r read}
+#ToxCast active
+toxcast <- read.csv(file.path("POD database","toxcast ac50.csv"))
+tox.5perc <- data.frame(sapply(toxcast, quantile, prob=0.05, na.rm = T))
+tox.5perc$Chemical <- origpod$Chemical
+colnames(tox.5perc)[1] <- "ToxCast"
+#iPSC+LCL
+cell.t <- read.csv(file.path("POD database","cellline POD distribution for 15 chemicals.csv"))
+cell.min <- data.frame(sapply(cell.t[2:16], min, na.rm=T))
+cell.min$Chemical <- origpod$Chemical
+colnames(cell.min)[1] <- "iPSCLCL"
+
+invitro <- merge(tox.5perc, cell.min, by="Chemical")
+invitro <- invitro[order(invitro$Chemical),]
+```
+
+##calculate ratio
+in vitro/in vivo
+
+```{r ratio}
+#######in vitro/POD
+pod.df <- full_join(origpod, invitro, by="Chemical", order="Chemical")
+pod.df$tox.log10ratio <- with(pod.df, log10(ToxCast/PODCss))
+pod.df$cell.log10ratio <- with(pod.df, log10(iPSCLCL/PODCss))
+
+#######in vitro/(POD+DAF)
+poddaf.df <- full_join(poddaf, invitro, by="Chemical")
+poddaf.df$tox.log10ratio <- with(poddaf.df, log10(ToxCast/poddaf.Css))
+poddaf.df$cell.log10ratio <- with(poddaf.df, log10(iPSCLCL/poddaf.Css))
+
+#######in vitro/BBMD
+bbmd.df <- full_join(BMD, invitro, by="Chemical")
+bbmd.df$tox.log10ratio <- with(bbmd.df, log10(ToxCast/BMD50.Css))
+bbmd.df$cell.log10ratio <- with(bbmd.df, log10(iPSCLCL/BMD50.Css))
+
+#######in vitro/HED
+hed.df <- full_join(HED, invitro, by="Chemical")
+hed.df$tox.log10ratio <- with(hed.df, log10(ToxCast/HED50.Css))
+hed.df$cell.log10ratio <- with(hed.df, log10(iPSCLCL/HED50.Css))
+```
+
+##calculate standard error
+#traditional POD: log10(P95/P05)=log10(100)=2*1.645*se
+#BBMD/HED: log10(P95/P05)=2*1.645*se
+
+```{r se}
+pod.df$se <- 2/(2*1.645)
+
+poddaf.df$se <- 2/(2*1.645)
+
+bbmd.df$se <- with(bbmd.df, (log10(BMD95.Css/BMD5.Css))/(2*1.645))
+
+hed.df$se <- with(hed.df, (log10(HED95.Css/HED5.Css))/(2*1.645))
+```
+
+##meta-analysis
+
+```{r matefor}
+pod.tox <- rma(yi=tox.log10ratio, sei=se, data=pod.df, slab=Chemical, level=90)
+predict(pod.tox)
+
+pod.cell <- rma(yi=cell.log10ratio, sei=se, data=pod.df, slab=Chemical, level=90)
+predict(pod.cell)
+
+poddaf.tox <- rma(yi=tox.log10ratio, sei=se, data=poddaf.df, slab=Chemical, level=90)
+predict(poddaf.tox)
+
+poddaf.cell <- rma(yi=cell.log10ratio, sei=se, data=poddaf.df, slab=Chemical, level=90)
+predict(poddaf.cell)
+
+bbmd.tox <- rma(yi=tox.log10ratio, sei=se, data=bbmd.df, slab=Chemical, level=90)
+predict(bbmd.tox)
+
+bbmd.cell <- rma(yi=cell.log10ratio, sei=se, data=bbmd.df, slab=Chemical, level=90)
+predict(bbmd.cell)
+
+hed.tox <- rma(yi=tox.log10ratio, sei=se, data=hed.df, slab=Chemical, level=90)
+predict(hed.tox)
+
+hed.cell <- rma(yi=cell.log10ratio, sei=se, data=hed.df, slab=Chemical, level=90)
+predict(hed.cell)
+
+#meta-analysis table
+capture.output(pod.tox, predict(pod.tox), poddaf.tox, predict(poddaf.tox), bbmd.tox, predict(bbmd.tox), hed.tox, predict(hed.tox), file="rma log10 ToxCast to in vivo ratio.txt")
+capture.output(pod.cell, predict(pod.cell), poddaf.cell, predict(poddaf.cell), bbmd.cell,predict(bbmd.cell), hed.cell, predict(hed.cell), file="rma log10 iPSCLCL to in vivo ratio.txt")
+
+#BMA BMD human
+#reorder by toxcast
+pdf(file="meta-analysis in vitro vs BMA BMD human.pdf", width=16, height=9, pointsize=12)
+par(mfrow=c(1,2))
+forest(hed.tox, order=hed.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/BMA BMD"[h]~"x Css)"),
+       header="Chemicals", alim=c(-6,6))
+title("A", adj = 0)
+text(-9.8, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(hed.tox$I2, digits=1, format="f")),  "%", ")")))
+forest(hed.cell, order=hed.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(six-cell-type POD/BMA BMD"[h]~"x Css)"),  header="Chemicals", alim=c(-6,6))
+title("B", adj = 0)
+text(-8.8, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(hed.cell$I2, digits=1, format="f")),  "%", ")")))
+par(mfrow = c(1, 1))
+dev.off()
+
+##supplemental plots
+#Regulatory POD animal
+#reorder by toxcast
+pdf(file="meta-analysis in vitro vs reg POD animal.pdf", width=16, height=9, pointsize=12)
+par(mfrow=c(1,2))
+forest(pod.tox, order=pod.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/Reg POD"[a]~"x Css)"),
+       header="Chemicals", alim=c(-6,6))
+title("A", adj = 0)
+text(-9.6, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(pod.tox$I2, digits=1, format="f")),  "%", ")")))
+forest(pod.cell, order=pod.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(six-cell-type POD/Reg POD"[a]~"x Css)"),  header="Chemicals", alim=c(-6,6))
+title("B", adj = 0)
+text(-10.8, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(pod.cell$I2, digits=1, format="f")),  "%", ")")))
+par(mfrow = c(1, 1))
+dev.off()
+
+#Regulatory POD human
+#reorder by toxcast
+pdf(file="meta-analysis in vitro vs reg POD human.pdf", width=16, height=9, pointsize=12)
+par(mfrow=c(1,2))
+forest(poddaf.tox, order=poddaf.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/Reg POD"[h]~"x Css)"),
+       header="Chemicals", alim=c(-6,6))
+title("A", adj = 0)
+text(-8.7, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(poddaf.tox$I2, digits=1, format="f")),  "%", ")")))
+forest(poddaf.cell, order=poddaf.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(six-cell-type POD/Reg POD"[h]~"x Css)"),  header="Chemicals", alim=c(-6,6))
+title("B", adj = 0)
+text(-8, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(poddaf.cell$I2, digits=1, format="f")),  "%", ")")))
+par(mfrow = c(1, 1))
+dev.off()
+
+#BMA BMD animal
+#reorder by toxcast
+pdf(file="meta-analysis in vitro vs BMA BMD animal.pdf", width=16, height=9, pointsize=12)
+par(mfrow=c(1,2))
+forest(bbmd.tox, order=bbmd.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/BMA BMD"[a]~"x Css)"),
+       header="Chemicals", alim=c(-6,6))
+title("A", adj = 0)
+text(-10.2, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(bbmd.tox$I2, digits=1, format="f")),  "%", ")")))
+forest(bbmd.cell, order=bbmd.df$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(six-cell-type POD/BMA BMD"[a]~"x Css)"),  header="Chemicals", alim=c(-6,6))
+title("B", adj = 0)
+text(-9.2, -1, pos=4, cex=1, bquote(paste("(", I^2, " = ", .(formatC(bbmd.cell$I2, digits=1, format="f")),  "%", ")")))
+par(mfrow = c(1, 1))
+dev.off()
+```

@@ -1,0 +1,609 @@
+---
+title: "HED"
+author: "En-Hsuan Lu"
+date: "2023-04-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(readr)
+
+probs <- c(0.5,0.05,0.95)
+set.seed(3159)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## dose response data
+
+```{r read}
+datafolder <- "BBMD data input"
+```
+
+## Nitroaniline, 4-
+
+```{r 4-Nitroaniline}
+bmd_nitro.bmds <- fread(file.path(datafolder,"nitroaniline-4-bmds.csv"))
+bmd.nitro <- bmd_nitro.bmds[15001:29815,]$model_average[sample.int(14815,10000)]
+cat("bmd.nitro",quantile(bmd.nitro,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic F344 rats/M: 0.38 kg
+#P50 = (70/0.38)^0.3 = 4.78
+#P95/P50 = (70/0.38)^0.04 = 1.232
+AF_interBS_fischerrat.m <- rlnorm(10000,meanlog = log(4.78), sdlog=log(1.232^(1/1.645)))
+
+#HED
+HED.nitro <- bmd.nitro/AF_interBS_fischerrat.m
+HED.nitro.df <- data.frame(t(quantile(HED.nitro,prob=probs)))
+HED.nitro.df$CAS <- "100-01-6"
+```
+
+## Caprolactam
+
+```{r Caprolactam}
+##sensitive
+##males
+bmd_capro.m.bmds <- fread(file.path(datafolder,"caprolactam-males-bmds.csv"))
+bmd.capro.m <- bmd_capro.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.capro.m",quantile(bmd.capro.m,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Reproductive study Fischer 344 rat
+#average BW from Serotta et al, 1984 Table 1: 0.1722278 kg
+#P50 = (70/0.1722278)^0.3 = 6.063
+#P95/P50 = (70/0.1722278)^0.04 = 1.272
+AF_interBS_fischerrat <- rlnorm(10000,meanlog = log(6.063), sdlog=log(1.272^(1/1.645)))
+
+#HED
+HED.capro.m <- bmd.capro.m/AF_interBS_fischerrat
+HED.capro.m.df <- data.frame(t(quantile(HED.capro.m,prob=probs)))
+HED.capro.m.df$CAS <- "105-60-2"
+```
+
+## Dichlorobenzene, 1,4-
+
+```{r 1,4-Dichlorobenzene}
+bmd_14dcb.bmds <- fread(file.path(datafolder,"dichlorobenzene-14-bmds.csv"))
+bmd.14dcb <- bmd_14dcb.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.14dcb",quantile(bmd.14dcb,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic Female beagle dog: 10.1 kg
+#P50 = (70/10.1)^0.3 = 1.79
+#P95/P50 = (70/10.1)^0.04 = 1.08
+AF_interBS_dog.f <- rlnorm(10000,meanlog = log(1.79), sdlog=log(1.08^(1/1.645)))
+
+#HED
+HED.14dcb <- bmd.14dcb/AF_interBS_dog.f
+HED.14dcb.df <- data.frame(t(quantile(HED.14dcb,prob=probs)))
+HED.14dcb.df$CAS <- "106-46-7"
+```
+
+## Chloroaniline, p-
+
+```{r p-Chloroaniline}
+##sensitive
+##males
+bmd_chloro.m.bmds <- fread(file.path(datafolder,"chloroaniline-p-males-bmds.csv"))
+bmd.chloro.m <- bmd_chloro.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.chloro.m",quantile(bmd.chloro.m,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic Fischer 344 rat: male 0.18 kg; female 0.124 kg
+#average animal bw: 0.152 kg
+#P50 = (70/0.152)^0.3 = 6.295
+#P95/P50 = (70/0.152)^0.04 = 1.278
+AF_interBS_subch.fischerrat <- rlnorm(10000,meanlog = log(6.295), sdlog=log(1.278^(1/1.645)))
+
+#HED
+HED.chloro.m <- bmd.chloro.m/AF_interBS_subch.fischerrat
+HED.chloro.m.df <- data.frame(t(quantile(HED.chloro.m,prob=probs)))
+HED.chloro.m.df$CAS <- "106-47-8"
+```
+
+## Phenol
+
+```{r phenol}
+bmd_phenol.bmds <- fread(file.path(datafolder,"phenol-bmds.csv"))
+bmd.phenol <- bmd_phenol.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.phenol",quantile(bmd.phenol,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Developmental study Sprague-Dawley rat: F: 0.338 kg
+#P50 = (70/0.338)^0.3 = 4.953
+#P95/P50 = (70/0.338)^0.04 = 1.238
+AF_interBS_sdrat.f <- rlnorm(10000,meanlog = log(4.953), sdlog=log(1.238^(1/1.645)))
+
+#HED
+HED.phenol <- bmd.phenol/AF_interBS_sdrat.f
+HED.phenol.df <- data.frame(t(quantile(HED.phenol,prob=probs)))
+HED.phenol.df$CAS <- "108-95-2"
+```
+
+## Tris(2-chloroethyl)phosphate
+
+```{r Tris(2-chloroethyl)phosphate}
+bmd_tcep.bmds <- fread(file.path(datafolder,"tris2-chloroethylphosphate-bmds.csv"))
+bmd.tcep <- bmd_tcep.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.tcep",quantile(bmd.tcep,prob=probs),"\n")
+
+#subchronic to chronic: 3
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic female F344 rats: 0.124 kg
+#P50 = (70/0.124)^0.3 = 6.69
+#P95/P50 = (70/0.124)^0.04 = 1.288
+AF_interBS_subch.fischerrat.f <- rlnorm(10000,meanlog = log(6.69), sdlog=log(1.288^(1/1.645)))
+
+#HED
+HED.tcep <- bmd.tcep/(UF_s*AF_interBS_subch.fischerrat.f)
+HED.tcep.df <- data.frame(t(quantile(HED.tcep,prob=probs)))
+HED.tcep.df$CAS <- "115-96-8"
+```
+
+## ~Octyl Phthalate, di-N-
+
+```{r di-N-OctylPhthalate}
+bmd_dnop.bmds <- fread(file.path(datafolder,"di-n-octyl-phthalate-vacuolation-bmds.csv"))
+bmd.dnop <- bmd_dnop.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.dnop",quantile(bmd.dnop,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic Sprague-Dawley male rat: 0.267 kg
+#P50 = (70/0.267)^0.3 = 5.316
+#P95/P50 = (70/0.267)^0.04 = 1.2495
+AF_interBS_subch.sdrat.m <- rlnorm(10000,meanlog = log(5.316), sdlog=log(1.2495^(1/1.645)))
+
+#HED
+HED.dnop <- bmd.dnop/AF_interBS_subch.sdrat.m
+HED.dnop.df <- data.frame(t(quantile(HED.dnop,prob=probs)))
+HED.dnop.df$CAS <- "117-84-0"
+```
+
+## Tris(1,3-Dichloro-2-propyl) Phosphate
+
+```{r Tris(1,3-Dichloro-2-propyl)Phosphate}
+bmd_tdcpp.bmds <- fread(file.path(datafolder,"tris13-dichloro-2-propyl-phosphate-bmds.csv"))
+bmd.tdcpp <- bmd_tdcpp.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.tdcpp",quantile(bmd.tdcpp,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic Sprague-Dawley male rat: 0.523 kg
+#P50 = (70/0.523)^0.3 = 4.345
+#P95/P50 = (70/0.523)^0.04 = 1.216
+AF_interBS_sdrat.m <- rlnorm(10000,meanlog = log(4.345), sdlog=log(1.216^(1/1.645)))
+
+#HED
+HED.tdcpp <- bmd.tdcpp/AF_interBS_sdrat.m
+HED.tdcpp.df <- data.frame(t(quantile(HED.tdcpp,prob=probs)))
+HED.tdcpp.df$CAS <- "13674-87-8"
+```
+
+## Mercaptobenzothiazole, 2-
+
+```{r 2-Mercaptobenzothiazole}
+bmd_2mbt.bmds <- fread(file.path(datafolder,"2-mercaptobenzothiazole-bmds.csv"))
+bmd.2mbt <- bmd_2mbt.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.2mbt",quantile(bmd.2mbt,prob=probs),"\n")
+
+#subchronic to chronic: 10
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic female F344 rats: 0.124 kg
+#P50 = (70/0.124)^0.3 = 6.69
+#P95/P50 = (70/0.124)^0.04 = 1.288
+AF_interBS_subch.fischerrat.f <- rlnorm(10000,meanlog = log(6.69), sdlog=log(1.288^(1/1.645)))
+
+#HED
+HED.2mbt <- bmd.2mbt/(UF_s*AF_interBS_subch.fischerrat.f)
+HED.2mbt.df <- data.frame(t(quantile(HED.2mbt,prob=probs)))
+HED.2mbt.df$CAS <- "149-30-4"
+```
+
+## ~Perfluorooctanesulfonic acid (PFOS)
+
+```{r PFOS}
+bmd_pfos.bmds <- fread(file.path(datafolder,"pfos-bmds.csv"))
+bmd.pfos <- bmd_pfos.bmds[1:14492,]$model_average[sample.int(14492,10000)]
+cat("bmd.pfos",quantile(bmd.pfos,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#2-generation study Sprague-Dawley rat
+#average Luebker et al. 2005 BW from F0 and F1: 0.3542721 kg
+#P50 = (70/0.3542721)^0.3 = 4.884
+#P95/P50 = (70/0.3542721)^0.04 = 1.236
+AF_interBS_sdrat.f <- rlnorm(10000,meanlog = log(4.884), sdlog=log(1.236^(1/1.645)))
+
+#HED
+HED.pfos <- bmd.pfos/AF_interBS_sdrat.f
+HED.pfos.df <- data.frame(t(quantile(HED.pfos,prob=probs)))
+HED.pfos.df$CAS <- "1763-23-1"
+```
+
+## Mirex
+
+```{r mirex}
+##the most sensitive
+##Angiectasis
+bmd_mirex.angie.bmds <- fread(file.path(datafolder,"mirex-angiectasis-bmds.csv"))
+bmd.mirex.angie <- bmd_mirex.angie.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mirex.angie",quantile(bmd.mirex.angie,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic F344 rats/M: 0.38 kg
+#P50 = (70/0.38)^0.3 = 4.78
+#P95/P50 = (70/0.38)^0.04 = 1.232
+AF_interBS_fischerrat.m <- rlnorm(10000,meanlog = log(4.78), sdlog=log(1.232^(1/1.645)))
+
+#HED
+HED.mirex.angie <- bmd.mirex.angie/AF_interBS_fischerrat.m
+HED.mirex.angie.df <- data.frame(t(quantile(HED.mirex.angie,prob=probs)))
+HED.mirex.angie.df$CAS <- "2385-85-5"
+```
+
+## ~Potassium perfluorobutanesulfonate
+
+```{r kPFBS}
+bmd_pfbs.bmds <- fread(file.path(datafolder,"pfbs-bmds.csv"))
+bmd.pfbs <- bmd_pfbs.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.pfbs",quantile(bmd.pfbs,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Developmental study ICR mouse
+#use Feng et al., 2017; 12 week old female average bw: 0.033 kg
+#P50 = (70/0.033)^0.3 = 9.954
+#P95/P50 = (70/0.033)^0.04 = 1.358
+AF_interBS_b6mouse.f <- rlnorm(10000,meanlog = log(9.954), sdlog=log(1.358^(1/1.645)))
+
+#HED
+HED.pfbs <- bmd.pfbs/AF_interBS_b6mouse.f
+HED.pfbs.df <- data.frame(t(quantile(HED.pfbs,prob=probs)))
+HED.pfbs.df$CAS <- "29420-49-3"
+```
+
+## ~Perfluorononanoic acid (PFNA)
+
+```{r PFNA}
+##sensitive
+##Decreased body weight
+bmd_pfna.bw.bmds <- fread(file.path(datafolder,"pfna-decreased-bw-bmds.csv"))
+bmd.pfna.bw <- bmd_pfna.bw.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.pfna.bw",quantile(bmd.pfna.bw,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Developmental study female CD-1 mice
+#average pregnant dams; use Table 1 maternal body weight: 0.05065 kg
+#P50 = (70/0.05065)^0.3 = 8.753
+#P95/P50 = (70/0.05065)^0.04 = 1.335
+AF_interBS_b6mouse.f <- rlnorm(10000,meanlog = log(8.753), sdlog=log(1.335^(1/1.645)))
+
+#HED
+HED.pfna.bw <- bmd.pfna.bw/AF_interBS_b6mouse.f
+HED.pfna.bw.df <- data.frame(t(quantile(HED.pfna.bw,prob=probs)))
+HED.pfna.bw.df$CAS <- "375-95-1"
+```
+
+## DDE, p,p'-
+
+```{r DDE}
+bmd_dde.bmds <- fread(file.path(datafolder,"dde-pp-bmds.csv"))
+bmd.dde <- bmd_dde.bmds[1:14741,]$model_average[sample.int(14741,10000)]
+cat("bmd.dde",quantile(bmd.dde,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Reproductive study Sprague-Dawley rat: subchronic Female: 0.204 kg
+#P50 = (70/0.204)^0.3 = 5.763
+#P95/P50 = (70/0.204)^0.04 = 1.263
+AF_interBS_sdrat.f <- rlnorm(10000,meanlog = log(5.763), sdlog=log(1.263^(1/1.645)))
+
+#HED
+HED.dde <- bmd.dde/AF_interBS_sdrat.f
+HED.dde.df <- data.frame(t(quantile(HED.dde,prob=probs)))
+HED.dde.df$CAS <- "72-55-9"
+```
+
+## Cacodylic Acid
+
+```{r CacodylicAcid}
+bmd_caco.bmds <- fread(file.path(datafolder,"cacodylic-acid-bmds.csv"))
+bmd.caco <- bmd_caco.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.caco",quantile(bmd.caco,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic female B6C3F1 mouse: 0.0353 kg
+#P50 = (70/0.0353)^0.3 = 9.754
+#P95/P50 = (70/0.0353)^0.04 = 1.355
+AF_interBS_b6mouse.f <- rlnorm(10000,meanlog = log(9.754), sdlog=log(1.355^(1/1.645)))
+
+#HED
+HED.caco <- bmd.caco/AF_interBS_b6mouse.f
+HED.caco.df <- data.frame(t(quantile(HED.caco,prob=probs)))
+HED.caco.df$CAS <- "75-60-5"
+```
+
+## Hexachlorocyclopentadiene
+
+```{r HCCPD}
+bmd_hccpd.bmds <- fread(file.path(datafolder,"hexachlorocyclopentadiene-bmds.csv"))
+bmd.hccpd <- bmd_hccpd.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.hccpd",quantile(bmd.hccpd,prob=probs),"\n")
+
+#subchronic to chronic: 3
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic female F344 rats: 0.124 kg
+#P50 = (70/0.124)^0.3 = 6.69
+#P95/P50 = (70/0.124)^0.04 = 1.288
+AF_interBS_subch.fischerrat.f <- rlnorm(10000,meanlog = log(6.69), sdlog=log(1.288^(1/1.645)))
+
+#HED
+HED.hccpd <- bmd.hccpd/(UF_s*AF_interBS_subch.fischerrat.f)
+HED.hccpd.df <- data.frame(t(quantile(HED.hccpd,prob=probs)))
+HED.hccpd.df$CAS <- "77-47-4"
+```
+
+## Methyl Ethyl Ketone (2-Butanone)
+
+```{r MEK}
+bmd_mek.bmds <- fread(file.path(datafolder,"methyl-ethyl-ketone-bmds.csv"))
+bmd.mek <- bmd_mek.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.mek",quantile(bmd.mek,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Reproductive study Wistar Rat: subchronic M: 0.217 kg; F: 0.156 kg
+#average bw: (0.217+0.156)/2 = 0.1865 kg
+#P50 = (70/0.1865)^0.3 = 5.92
+#P95/P50 = (70/0.1865)^0.04 = 1.268
+AF_interBS_wrat.f <- rlnorm(10000,meanlog = log(5.92), sdlog=log(1.268^(1/1.645)))
+
+#HED
+HED.mek <- bmd.mek/AF_interBS_wrat.f
+HED.mek.df <- data.frame(t(quantile(HED.mek,prob=probs)))
+HED.mek.df$CAS <- "78-93-3"
+```
+
+## ~Butyl Benzyl Phthalate
+
+```{r ButylBenzylPhthalate}
+bmd_bbp.bmds <- fread(file.path(datafolder,"butyl-benzyl-phthalate-bmds.csv"))
+bmd.bbp <- bmd_bbp.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.bbp",quantile(bmd.bbp,prob=probs),"\n")
+
+#subchronic to chronic: 10
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic F344 rats/M: 0.18 kg
+#P50 = (70/0.18)^0.3 = 5.983
+#P95/P50 = (70/0.18)^0.04 = 1.269
+AF_interBS_subch.fischerrat.m <- rlnorm(10000,meanlog = log(5.983), sdlog=log(1.269^(1/1.645)))
+
+#HED
+HED.bbp <- bmd.bbp/(UF_s*AF_interBS_subch.fischerrat.m)
+HED.bbp.df <- data.frame(t(quantile(HED.bbp,prob=probs)))
+HED.bbp.df$CAS <- "85-68-7"
+```
+
+## Biphenyl, 1,1'-
+
+```{r 1,1-Biphenyl}
+bmd_biphenyl.bmds <- fread(file.path(datafolder,"biphenyl-11-bmds.csv"))
+bmd.biphenyl <- bmd_biphenyl.bmds[15001:29950,]$model_average[sample.int(14950,10000)]
+cat("bmd.biphenyl",quantile(bmd.biphenyl,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Chronic F344 rats/M: 0.38 kg
+#P50 = (70/0.38)^0.3 = 4.78
+#P95/P50 = (70/0.38)^0.04 = 1.232
+AF_interBS_fischerrat.m <- rlnorm(10000,meanlog = log(4.78), sdlog=log(1.232^(1/1.645)))
+
+#HED
+HED.biphenyl <- bmd.biphenyl/AF_interBS_fischerrat.m
+HED.biphenyl.df <- data.frame(t(quantile(HED.biphenyl,prob=probs)))
+HED.biphenyl.df$CAS <- "92-52-4"
+```
+
+## Phenothiazine
+
+```{r Phenothiazine}
+bmd_ptz.bmds <- fread(file.path(datafolder,"phenothiazine-bmds.csv"))
+bmd.ptz <- bmd_ptz.bmds[1:14957,]$model_average[sample.int(14957,10000)]
+cat("bmd.ptz",quantile(bmd.ptz,prob=probs),"\n")
+
+#subchronic to chronic: 10
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic Female beagle dog: 1.97 kg
+#P50 = (70/1.97)^0.3 = 2.919
+#P95/P50 = (70/1.97)^0.04 = 1.154
+AF_interBS_subch.dog.f <- rlnorm(10000,meanlog = log(2.919), sdlog=log(1.154^(1/1.645)))
+
+#HED
+HED.ptz <- bmd.ptz/(UF_s*AF_interBS_subch.dog.f)
+HED.ptz.df <- data.frame(t(quantile(HED.ptz,prob=probs)))
+HED.ptz.df$CAS <- "92-84-2"
+```
+
+## Trichlorophenoxyacetic Acid, 2,4,5-
+
+```{r 2,4,5-TCP}
+##senstivie
+##females
+bmd_245tcp.f.bmds <- fread(file.path(datafolder,"245-tcp-acid-females-bmds.csv"))
+bmd.245tcp.f <- bmd_245tcp.f.bmds[1:14680,]$model_average[sample.int(14680,10000)]
+cat("bmd.245tcp.f",quantile(bmd.245tcp.f,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Sprague-Dawley rat
+#M: 0.523 kg; F: 0.338 kg
+#average: 0.4305 kg
+#P50 = (70/0.4305)^0.3 = 4.606144
+#P95/P50 = (70/0.4305)^0.04 = 1.226
+AF_interBS_sdrat <- rlnorm(10000,meanlog = log(4.61), sdlog=log(1.226^(1/1.645)))
+
+#HED
+HED.245tcp.f <- bmd.245tcp.f/AF_interBS_sdrat
+HED.245tcp.f.df <- data.frame(t(quantile(HED.245tcp.f,prob=probs)))
+HED.245tcp.f.df$CAS <- "93-76-5"
+```
+
+## Tetrachlorobenzene, 1,2,4,5-
+
+```{r 1,2,4,5-TCB}
+bmd_1245tcb.bmds <- fread(file.path(datafolder,"1245-tcb-bmds.csv"))
+bmd.1245tcb <- bmd_1245tcb.bmds[15001:29997,]$model_average[sample.int(14997,10000)]
+cat("bmd.1245tcb",quantile(bmd.1245tcb,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#28 days Sprague-Dawley male rat: 0.057 kg
+#P50 = (70/0.057)^0.3 = 8.448
+#P95/P50 = (70/0.057)^0.04 = 1.329
+AF_interBS_wean.sdrat.m <- rlnorm(10000,meanlog = log(8.448), sdlog=log(1.329^(1/1.645)))
+
+#HED
+HED.1245tcb <- bmd.1245tcb/AF_interBS_wean.sdrat.m
+HED.1245tcb.df <- data.frame(t(quantile(HED.1245tcb,prob=probs)))
+HED.1245tcb.df$CAS <- "95-94-3"
+```
+
+## Nitrobenzene
+
+```{r Nitrobenzene}
+bmd_nb.bmds <- fread(file.path(datafolder,"nitrobenzene-bmds.csv"))
+bmd.nb <- bmd_nb.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.nb",quantile(bmd.nb,prob=probs),"\n")
+
+#subchronic to chronic: 3
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic F344 rats/M: 0.18 kg
+#P50 = (70/0.18)^0.3 = 5.983
+#P95/P50 = (70/0.18)^0.04 = 1.269
+AF_interBS_subch.fischerrat.m <- rlnorm(10000,meanlog = log(5.983), sdlog=log(1.269^(1/1.645)))
+
+#HED
+HED.nb <- bmd.nb/(UF_s*AF_interBS_subch.fischerrat.m)
+HED.nb.df <- data.frame(t(quantile(HED.nb,prob=probs)))
+HED.nb.df$CAS <- "98-95-3"
+```
+
+## Nitrotoluene, m-
+
+```{r m-Nitrotoluene}
+bmd_mnt.bmds <- fread(file.path(datafolder,"nitrotoluene-m-bmds.csv"))
+bmd.mnt <- bmd_mnt.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.mnt",quantile(bmd.mnt,prob=probs),"\n")
+
+#subchronic to chronic: 10
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic female F344 rats: 0.124 kg
+#P50 = (70/0.124)^0.3 = 6.69
+#P95/P50 = (70/0.124)^0.04 = 1.288
+AF_interBS_subch.fischerrat.f <- rlnorm(10000,meanlog = log(6.69), sdlog=log(1.288^(1/1.645)))
+
+#HED
+HED.mnt <- bmd.mnt/(UF_s*AF_interBS_subch.fischerrat.f)
+HED.mnt.df <- data.frame(t(quantile(HED.mnt,prob=probs)))
+HED.mnt.df$CAS <- "99-08-1"
+```
+
+## Dinitrobenzene, 1,3-
+
+```{r 1,3-Dinitrobenzene}
+##sensitive
+##males
+bmd_13dnb.m.bmds <- fread(file.path(datafolder,"13-dnb-males-bmds.csv"))
+bmd.13dnb.m <- bmd_13dnb.m.bmds$model_average[sample.int(15000,10000)]
+cat("bmd.13dnb.m",quantile(bmd.13dnb.m,prob=probs),"\n")
+
+#subchronic to chronic: 10
+#P50=2, P95/P50=4
+UF_s <- rlnorm(10000,meanlog = log(2), sdlog=log(4^(1/1.645)))
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic Carworth Farm rats: use Fischer 344 rat, male 0.18 kg; female 0.124 kg
+#average animal bw: 0.152 kg
+#P50 = (70/0.152)^0.3 = 6.295
+#P95/P50 = (70/0.152)^0.04 = 1.278
+AF_interBS_subch.fischerrat <- rlnorm(10000,meanlog = log(6.295), sdlog=log(1.278^(1/1.645)))
+
+#HED
+HED.13dnb.m <- bmd.13dnb.m/(UF_s*AF_interBS_subch.fischerrat)
+HED.13dnb.m.df <- data.frame(t(quantile(HED.13dnb.m,prob=probs)))
+HED.13dnb.m.df$CAS <- "99-65-0"
+```
+
+## Nitrotoluene, p-
+
+```{r p-Nitrotoluene}
+##sensitive
+bmd_pnt.m.bmds <- fread(file.path(datafolder,"nitrotoluene-p-males-bmds.csv"))
+bmd.pnt.m <- bmd_pnt.m.bmds[15001:30000,]$model_average[sample.int(15000,10000)]
+cat("bmd.pnt.m",quantile(bmd.pnt.m,prob=probs),"\n")
+
+#AF: WHO body size scaling
+#human: 70 kg
+#Subchronic Carworth Farm rats: use Fischer 344 rat, male 0.18 kg; female 0.124 kg
+#average animal bw: 0.152 kg
+#P50 = (70/0.152)^0.3 = 6.295
+#P95/P50 = (70/0.152)^0.04 = 1.278
+AF_interBS_subch.fischerrat <- rlnorm(10000,meanlog = log(6.295), sdlog=log(1.278^(1/1.645)))
+
+#HED
+HED.pnt.m <- bmd.pnt.m/AF_interBS_subch.fischerrat
+HED.pnt.m.df <- data.frame(t(quantile(HED.pnt.m,prob=probs)))
+HED.pnt.m.df$CAS <- "99-99-0"
+```
+
+##combine into dataframe
+the most sensitive PODs
+
+```{r combine}
+HED <- rbind(HED.nitro.df, HED.capro.m.df, HED.14dcb.df, HED.chloro.m.df, HED.phenol.df, 
+              HED.tcep.df, HED.dnop.df, HED.tdcpp.df, HED.2mbt.df, HED.pfos.df, 
+              HED.mirex.angie.df, HED.pfbs.df, HED.pfna.bw.df, HED.dde.df, HED.caco.df, 
+              HED.hccpd.df, HED.mek.df, HED.bbp.df, HED.biphenyl.df, HED.ptz.df, 
+              HED.245tcp.f.df, HED.1245tcb.df, HED.nb.df, HED.mnt.df, HED.13dnb.m.df, 
+              HED.pnt.m.df)
+write.csv(HED, file="HED for cardio 26 chemicals.csv", row.names = FALSE)
+```

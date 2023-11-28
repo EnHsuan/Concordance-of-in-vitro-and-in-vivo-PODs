@@ -1,0 +1,87 @@
+﻿sex,endpoint,dose,N,mean,SD,chemical
+male,bw,0,25,30.8,3.571,caprolactam
+male,bw,50,31,28.84,4.05,caprolactam
+male,bw,250,26,27.62,3.06,caprolactam
+male,bw,500,25,22.32,2.174,caprolactam
+female,bw,0,21,27.95,2.397,caprolactam
+female,bw,50,20,29.4,4.604,caprolactam
+female,bw,250,20,27.35,4.03,caprolactam
+female,bw,500,26,21.31,2.739,caprolactam
+female,serum AP,0,5,173.4,55.09,"1,4-dichlorobenzene"
+female,serum AP,10,5,181.8,69.22,"1,4-dichlorobenzene"
+female,serum AP,50,5,745.8,329.53,"1,4-dichlorobenzene"
+female,serum AP,75,4,1351.75,652.46,"1,4-dichlorobenzene"
+male,serum,0,13,0.26,0.11,"chloroaniline, p-"
+male,serum,1.4,12,0.79,0.15,"chloroaniline, p-"
+male,serum,4.3,12,0.89,0.18,"chloroaniline, p-"
+male,serum,12.9,13,1.97,0.17,"chloroaniline, p-"
+female,weight gain,0,23,64,10.7,phenol
+female,weight gain,60,25,58,9.4,phenol
+female,weight gain,120,23,56.8,10.8,phenol
+female,weight gain,360,25,39.8,9.5,phenol
+female,kidney,0,10,3.69,0.04,tris(2-chloroethyl)phosphate
+female,kidney,22,8,3.83,0.06,tris(2-chloroethyl)phosphate
+female,kidney,44,10,4.03,0.04,tris(2-chloroethyl)phosphate
+female,kidney,88,10,4.1,0.07,tris(2-chloroethyl)phosphate
+female,kidney,175,8,4.18,0.06,tris(2-chloroethyl)phosphate
+female,kidney,350,5,4.51,0.06,tris(2-chloroethyl)phosphate
+female,liver weight,0,10,31.8,3.28,2-mercaptobenzothiazole
+female,liver weight,134,9,39.3,3.53,2-mercaptobenzothiazole
+female,liver weight,268,10,39.9,2.99,2-mercaptobenzothiazole
+female,liver weight,536,8,41.8,2.81,2-mercaptobenzothiazole
+female,liver weight,1071,10,43.2,2.61,2-mercaptobenzothiazole
+pup,pup weight,0,23,32,3.5,perfluorooctanesulfonic acid
+pup,pup weight,0.1,25,31.8,3.1,perfluorooctanesulfonic acid
+pup,pup weight,0.4,22,28.9,4.7,perfluorooctanesulfonic acid
+pup,serum,0,10,1.439613527,0.086956522,potassium perfluorobutanesulfonate
+pup,serum,50,10,1.333333333,0.086956522,potassium perfluorobutanesulfonate
+pup,serum,200,10,0.917874396,0.106280193,potassium perfluorobutanesulfonate
+pup,serum,500,10,0.70531401,0.115942029,potassium perfluorobutanesulfonate
+pup,bw,0,8,13.40782,0.67039,perfluorononanoic acid
+pup,bw,1,8,11.48603,0.49162,perfluorononanoic acid
+pup,bw,3,8,9.89944,0.49162,perfluorononanoic acid
+pup,bw,5,10,6.30168,0.69273,perfluorononanoic acid
+pup,eye,0,8,15.45684,0.13483,perfluorononanoic acid
+pup,eye,1,8,15.69635,0.26994,perfluorononanoic acid
+pup,eye,3,8,17.14977,0.40435,perfluorononanoic acid
+pup,eye,5,10,20.13099,0.67416,perfluorononanoic acid
+male,liver weight,0,23,3.659,0.291,"p,p'-DDE"
+male,liver weight,5,20,3.978,0.338,"p,p'-DDE"
+male,liver weight,15,21,4.031,0.366,"p,p'-DDE"
+male,liver weight,50,21,4.066,0.412,"p,p'-DDE"
+pup,bw,0,28,49,3.8,methyl ethyl ketone
+pup,bw,594,27,47,3.9,methyl ethyl ketone
+pup,bw,1771,30,44,4.8,methyl ethyl ketone
+pup,bw,3122,26,30,11.9,methyl ethyl ketone
+male,liver ratio,0,12,33.24,0.46,butyl benzyl phthalate
+male,liver ratio,17,14,33.76,0.36,butyl benzyl phthalate
+male,liver ratio,51,14,34.4,0.66,butyl benzyl phthalate
+male,liver ratio,159,14,34.16,0.55,butyl benzyl phthalate
+male,liver ratio,470,15,37.92,0.71,butyl benzyl phthalate
+male,liver ratio,1417,11,47.23,1.23,butyl benzyl phthalate
+female,sgot,0,4,24.75,2.5,phenothiazine
+female,sgot,1.59,4,25,2.16,phenothiazine
+female,sgot,6.82,4,32.5,4.51,phenothiazine
+female,sgot,17.68,4,29.75,5.68,phenothiazine
+female,sgot,67.05,4,34.25,3.1,phenothiazine
+male,urine,0,86,14.6,6,"2,4,5-trichlorophenoxyacetic acid"
+male,urine,3,50,15.2,3.6,"2,4,5-trichlorophenoxyacetic acid"
+male,urine,10,50,9.7,4.4,"2,4,5-trichlorophenoxyacetic acid"
+male,urine,30,50,22.8,13,"2,4,5-trichlorophenoxyacetic acid"
+female,urine,0,86,5.8,1.9,"2,4,5-trichlorophenoxyacetic acid"
+female,urine,3,50,6.5,2.3,"2,4,5-trichlorophenoxyacetic acid"
+female,urine,10,50,9.8,2.3,"2,4,5-trichlorophenoxyacetic acid"
+female,urine,30,50,8,9.8,"2,4,5-trichlorophenoxyacetic acid"
+male,meth level,0,10,1.13,0.58,nitrobenzene
+male,meth level,9.38,10,2.75,0.58,nitrobenzene
+male,meth level,18.75,10,4.22,1.15,nitrobenzene
+male,meth level,37.5,10,5.62,0.85,nitrobenzene
+male,meth level,75,10,7.31,1.44,nitrobenzene
+male,spleen,0,20,0.85,0.02,"1,3-dinitrobenzene"
+male,spleen,0.4,20,0.93,0.02,"1,3-dinitrobenzene"
+male,spleen,1.13,20,1.02,0.02,"1,3-dinitrobenzene"
+male,spleen,2.64,20,1.1,0.04,"1,3-dinitrobenzene"
+female,spleen,0,20,0.68,0.01,"1,3-dinitrobenzene"
+female,spleen,0.48,20,0.69,0.02,"1,3-dinitrobenzene"
+female,spleen,1.32,20,0.79,0.02,"1,3-dinitrobenzene"
+female,spleen,3.1,20,0.84,0.02,"1,3-dinitrobenzene"

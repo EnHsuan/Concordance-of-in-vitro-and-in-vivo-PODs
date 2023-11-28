@@ -1,0 +1,99 @@
+﻿sex,endpoint,dose,N,incidence,chemical
+male,hepato,0,20,2,acenaphthene
+male,hepato,175,20,2,acenaphthene
+male,hepato,350,20,18,acenaphthene
+male,hepato,700,19,19,acenaphthene
+female,hepato,0,20,0,acenaphthene
+female,hepato,175,20,0,acenaphthene
+female,hepato,350,20,5,acenaphthene
+female,hepato,700,17,17,acenaphthene
+male,liver,0,17,1,aldrin
+male,liver,0.037,19,4,aldrin
+male,liver,0.15,19,9,aldrin
+male,liver,0.73,22,11,aldrin
+male,liver,3.65,18,18,aldrin
+male,liver,7.3,11,11,aldrin
+male,liver,11,9,9,aldrin
+male,f1 brain,0,72,0,benzidine
+male,f1 brain,5.7,120,16.8,benzidine
+male,f1 brain,7.6,96,18.24,benzidine
+male,f1 brain,11.4,72,2.88,benzidine
+male,f1 brain,15.2,72,12.24,benzidine
+male,f1 brain,22.8,72,6.48,benzidine
+male,f1 brain,30.4,72,5.76,benzidine
+female,f1 brain,0,72,1.44,benzidine
+female,f1 brain,2.7,120,10.8,benzidine
+female,f1 brain,3.8,96,14.4,benzidine
+female,f1 brain,8.2,72,13.68,benzidine
+female,f1 brain,11.5,72,18.72,benzidine
+female,f1 brain,15.2,72,7.2,benzidine
+female,f1 brain,27.2,72,2.88,benzidine
+male,mc brain,0,72,0,benzidine
+male,mc brain,5.7,120,20,benzidine
+male,mc brain,7.6,96,16,benzidine
+male,mc brain,11.4,72,17,benzidine
+male,mc brain,15.2,72,14,benzidine
+male,mc brain,22.8,72,7,benzidine
+male,mc brain,30.4,72,11,benzidine
+female,mc brain,0,72,1,benzidine
+female,mc brain,2.7,120,12,benzidine
+female,mc brain,3.8,96,12,benzidine
+female,mc brain,8.2,72,8,benzidine
+female,mc brain,11.5,72,12,benzidine
+female,mc brain,15.2,72,13,benzidine
+female,mc brain,27.2,72,4,benzidine
+female,f1 liver,0,72,1.44,benzidine
+female,f1 liver,2.7,120,8.4,benzidine
+female,f1 liver,3.8,96,6.72,benzidine
+female,f1 liver,8.2,72,5.04,benzidine
+female,f1 liver,11.5,72,12.24,benzidine
+female,f1 liver,15.2,72,18,benzidine
+female,f1 liver,27.2,72,33.84,benzidine
+female,mc liver,0,72,1,benzidine
+female,mc liver,2.7,120,11,benzidine
+female,mc liver,3.8,96,15,benzidine
+female,mc liver,8.2,72,8,benzidine
+female,mc liver,11.5,72,15,benzidine
+female,mc liver,15.2,72,21,benzidine
+female,mc liver,27.2,72,23,benzidine
+female,hypoactive,0,28,0,"cresol, para-"
+female,hypoactive,5,14,0,"cresol, para-"
+female,hypoactive,50,14,2,"cresol, para-"
+female,hypoactive,100,14,2,"cresol, para-"
+male,glomeru,0,70,20,endosulfan
+male,glomeru,0.1,70,18,endosulfan
+male,glomeru,0.3,70,22,endosulfan
+male,glomeru,0.6,70,24,endosulfan
+male,glomeru,2.9,70,30,endosulfan
+male,nephropathy,0,20,1,fluoranthene
+male,nephropathy,125,20,2,fluoranthene
+male,nephropathy,250,20,1,fluoranthene
+male,nephropathy,500,20,11,fluoranthene
+female,nephropathy,0,20,1,fluoranthene
+female,nephropathy,125,20,2,fluoranthene
+female,nephropathy,250,20,5,fluoranthene
+female,nephropathy,500,20,11,fluoranthene
+male,liver,0,4,0,pentachlorophenol
+male,liver,1.5,4,4,pentachlorophenol
+male,liver,3.5,4,4,pentachlorophenol
+male,liver,6.5,3,3,pentachlorophenol
+female,liver,0,4,0,pentachlorophenol
+female,liver,1.5,4,4,pentachlorophenol
+female,liver,3.5,4,4,pentachlorophenol
+female,liver,6.5,3,3,pentachlorophenol
+male,cyto,0,4,1,pentachlorophenol
+male,cyto,1.5,4,1,pentachlorophenol
+male,cyto,3.5,4,4,pentachlorophenol
+male,cyto,6.5,3,3,pentachlorophenol
+female,cyto,0,4,3,pentachlorophenol
+female,cyto,1.5,4,3,pentachlorophenol
+female,cyto,3.5,4,4,pentachlorophenol
+female,cyto,6.5,3,3,pentachlorophenol
+male,inflammation,0,4,0,pentachlorophenol
+male,inflammation,1.5,4,4,pentachlorophenol
+male,inflammation,3.5,4,4,pentachlorophenol
+male,inflammation,6.5,3,3,pentachlorophenol
+female,inflammation,0,4,2,pentachlorophenol
+female,inflammation,1.5,4,2,pentachlorophenol
+female,inflammation,3.5,4,4,pentachlorophenol
+female,inflammation,6.5,3,3,pentachlorophenol

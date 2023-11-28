@@ -1,0 +1,16 @@
+"VALUE","Chemical","CAS","Classification","origPOD"
+1.59882880848822,"naphthalene","91-20-3","PAH",71
+1.76934320683088,"fluoranthene","206-44-0","PAH",125
+2.47708048956323,"acenaphthene","83-32-9","PAH",175
+0.407442108293915,"benzidine","92-87-5","Intermediate",2.7
+0.243384900863774,"p-cresol","106-44-5","Intermediate",5
+1.91356857593717,"1,2,3-trichlorobenzene","87-61-6","Intermediate",7.7
+0.00128408070026152,"dieldrin","60-57-1","Pesticide",0.005
+0.0070848382136188,"aldrin","309-00-2","Pesticide",0.025
+0.00697034519844546,"heptachlor","76-44-8","Pesticide",0.03
+0.00164301115799522,"gamma-hexachlorocyclohexane","58-89-9","Pesticide",0.012
+0.932386167033989,"pentachlorophenol","87-86-5","Pesticide",1.5
+0.188019409152967,"azinphos-methyl","86-50-0","Pesticide",0.3
+0.0745908933627191,"dicofol","115-32-2","Pesticide",0.12
+0.168023500899263,"endosulfan","115-29-7","Pesticide",0.6
+0.0280039168165438,"chlorpyrifos","2921-88-2","Pesticide",0.1

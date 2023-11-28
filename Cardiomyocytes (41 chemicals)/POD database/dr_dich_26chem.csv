@@ -1,0 +1,76 @@
+﻿sex,endpoint,dose,N,incidence,chemical
+male,spleen,0,60,37,4-nitroaniline
+male,spleen,0.25,60,43,4-nitroaniline
+male,spleen,1.5,60,50,4-nitroaniline
+male,spleen,9,60,47,4-nitroaniline
+male,vacuolation,0,10,0,di-n-octyl phthalate
+male,vacuolation,0.4,10,0,di-n-octyl phthalate
+male,vacuolation,3.5,10,0,di-n-octyl phthalate
+male,vacuolation,36.8,10,0,di-n-octyl phthalate
+male,vacuolation,350.1,10,9,di-n-octyl phthalate
+male,renal hyperplasia,0,45,2,"tris(1,3-dichloro-2-propyl) phosphate"
+male,renal hyperplasia,5,49,10,"tris(1,3-dichloro-2-propyl) phosphate"
+male,renal hyperplasia,20,48,28,"tris(1,3-dichloro-2-propyl) phosphate"
+male,renal hyperplasia,80,46,24,"tris(1,3-dichloro-2-propyl) phosphate"
+male,hepatocytomegaly,0,52,2,mirex
+male,hepatocytomegaly,0.007,52,12,mirex
+male,hepatocytomegaly,0.07,52,2,mirex
+male,hepatocytomegaly,0.7,52,40,mirex
+male,hepatocytomegaly,1.8,52,43,mirex
+male,hepatocytomegaly,3.8,52,44,mirex
+male,metamorphosis,0,52,10,mirex
+male,metamorphosis,0.007,52,11,mirex
+male,metamorphosis,0.07,52,13,mirex
+male,metamorphosis,0.7,52,20,mirex
+male,metamorphosis,1.8,52,21,mirex
+male,metamorphosis,3.8,52,26,mirex
+male,angiectasis,0,52,20,mirex
+male,angiectasis,0.007,52,20,mirex
+male,angiectasis,0.07,52,19,mirex
+male,angiectasis,0.7,52,42,mirex
+male,angiectasis,1.8,52,38,mirex
+male,angiectasis,3.8,52,39,mirex
+male,cystic follicles,0,52,2,mirex
+male,cystic follicles,0.007,52,1,mirex
+male,cystic follicles,0.07,52,0,mirex
+male,cystic follicles,0.7,52,5,mirex
+male,cystic follicles,1.8,52,4,mirex
+male,cystic follicles,3.8,52,6,mirex
+female,vacuolization,0,45,1,cacodylic acid
+female,vacuolization,1.3,48,1,cacodylic acid
+female,vacuolization,7.8,43,26,cacodylic acid
+female,vacuolization,37,47,47,cacodylic acid
+female,vacuolization,94,43,43,cacodylic acid
+female,stomach,0,10,0,hexachlorocyclopentadiene
+female,stomach,7,10,0,hexachlorocyclopentadiene
+female,stomach,14,10,2,hexachlorocyclopentadiene
+female,stomach,27,10,5,hexachlorocyclopentadiene
+female,stomach,54,10,9,hexachlorocyclopentadiene
+female,stomach,107,10,9,hexachlorocyclopentadiene
+male,renal,0,50,9,biphenyl
+male,renal,36.4,50,6,biphenyl
+male,renal,110,50,10,biphenyl
+male,renal,378,50,18,biphenyl
+male,thyroid,0,10,0,"1,2,4,5-tetrachlorobenzene"
+male,thyroid,0.041,10,5,"1,2,4,5-tetrachlorobenzene"
+male,thyroid,0.42,10,3,"1,2,4,5-tetrachlorobenzene"
+male,thyroid,3.4,10,4,"1,2,4,5-tetrachlorobenzene"
+male,thyroid,32,10,9,"1,2,4,5-tetrachlorobenzene"
+female,spleen,0,10,1,3-nitrotoluene
+female,spleen,48,10,9,3-nitrotoluene
+female,spleen,87,10,10,3-nitrotoluene
+female,spleen,172,10,10,3-nitrotoluene
+female,spleen,336,10,8,3-nitrotoluene
+female,spleen,638,10,10,3-nitrotoluene
+male,spleen,0,10,0,4-nitrotoluene
+male,spleen,42,10,6,4-nitrotoluene
+male,spleen,82,10,8,4-nitrotoluene
+male,spleen,165,10,10,4-nitrotoluene
+male,spleen,342,10,9,4-nitrotoluene
+male,spleen,723,10,10,4-nitrotoluene
+female,spleen,0,10,0,4-nitrotoluene
+female,spleen,44,10,5,4-nitrotoluene
+female,spleen,82,10,6,4-nitrotoluene
+female,spleen,164,10,10,4-nitrotoluene
+female,spleen,335,10,10,4-nitrotoluene
+female,spleen,680,10,10,4-nitrotoluene

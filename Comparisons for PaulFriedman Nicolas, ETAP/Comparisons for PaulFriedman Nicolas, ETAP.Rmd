@@ -1,0 +1,157 @@
+---
+title: "Comparisons for PaulFriedman Nicolas, ETAP"
+author: "En-Hsuan Lu"
+date: "2023-11-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(Hmisc)
+library(weights)
+library(wCorr)
+library(metafor)
+library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Correlation plots for Paul Friedman et al. 2020
+all 448 chemicals
+
+```{r cor}
+pf <- read.csv("Paul Friedman et al 2020 table S2.csv")
+pf$nam50 <- 10^(pf$pod.nam.50)
+
+pf$tra.podrank <- rank(pf$p5.POD)
+pf$namrank <- rank(pf$nam50)
+
+nam.pod.s <- round((weightedCorr(log10(pf$p5.POD),log10(pf$nam50), method=c("Spearman"))), digits=2)
+
+nam.pod.rank <- wtd.cor(pf$namrank, pf$tra.podrank)
+
+nam.pod <- ggplot(pf, aes(x=nam50, y=p5.POD))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-06, 5e+04),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-06, 5e+04),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("NAM POD (mg/kg/day)")+ylab("Traditional POD (mg/kg/day)")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", nam.pod.s, "~\n p~value == 0.02"), parse = TRUE, 
+           x=1e-4, y=5e+4)
+print(nam.pod)
+```
+
+##meta analysis for Paul Friedman et al. 2020
+all 448 chemicals
+
+```{r meta}
+pf$nam.50_pod.ratio <- 1/(10^(pf$pod.ratio.50))
+pf$log10.nam_pod <- log10(pf$nam.50_pod.ratio)
+
+#standard error
+pf$nam.se <- 2/(2*1.645)
+
+nam.meta <- rma(yi=log10.nam_pod, sei=nam.se, data=pf, slab=Name, level=90)
+predict(nam.meta)
+
+#meta-analysis table
+capture.output(nam.meta, predict(nam.meta), file="rma log10 Paul Friedman NAM to traditional POD ratio for all chemicals.txt")
+```
+
+##Correlation for Nicolas et al. 2022
+
+```{r cor}
+ni.df <- read.csv("Nicolas et al. 2022 HTTK_Output.csv")
+ni <- ni.df[!is.na(ni.df$NOAEL), ]
+ni$oedac50.rank <- rank(ni$oed.AC50p5)
+ni$noeal.rank <- rank(ni$NOAEL)
+
+oed.noael.s <- round((weightedCorr(log10(ni$oedac50.rank),log10(ni$noeal.rank), method=c("Spearman"))), digits=2)
+oed.noael.rank <- wtd.cor(ni$oedac50.rank, ni$noeal.rank)
+
+oed.noael <- ggplot(ni, aes(x=oed.AC50p5, y=NOAEL))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-06, 5e+04),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-06, 5e+04),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab("OED (mg/kg/day)")+ylab("NOAEL (mg/kg/day)")+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", oed.noael.s, "~\n p~value < 0.01"), parse = TRUE, 
+           x=1e-4, y=5e+4)
+print(oed.noael)
+```
+
+##meta analysis for Nicolas et al. 2022
+all chemicals
+
+```{r meta}
+ni$oed_noael.ratio <- ni$oed.AC50p5/ni$NOAEL
+ni$log10.oed_noael <- log10(ni$oed_noael.ratio)
+
+#standard error
+ni$oed.se <- 2/(2*1.645)
+
+oed.meta <- rma(yi=log10.oed_noael, sei=oed.se, data=ni, slab=PREFERRED_NAME, level=90)
+predict(oed.meta)
+
+#meta-analysis table
+capture.output(oed.meta, predict(oed.meta), file="rma log10 Nicolas et al 2022 OED vs NOAEL.txt")
+```
+
+##Correlation for ETAP
+
+```{r cor}
+etap <- read.csv("ETAP_Table_4-2-MinTRV.csv")
+
+etap.s <- round((weightedCorr(log10(etap$RfD.or.RfC..mg.kg.day.or.mg.m3..),log10(etap$TRV..mg.kg.day.or.mg.m3..), method=c("Spearman"))), digits=2)
+etap$rfdrank <- rank(etap$RfD.or.RfC..mg.kg.day.or.mg.m3..)
+etap$trvrank <- rank(etap$TRV..mg.kg.day.or.mg.m3..)
+wtd.cor(etap$trvrank, etap$rfdrank)
+
+etap.cor <- ggplot(etap, aes(x=TRV..mg.kg.day.or.mg.m3.., y=RfD.or.RfC..mg.kg.day.or.mg.m3..))+
+  geom_point()+
+  geom_abline(intercept = 0, slope = 1)+
+  scale_x_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(limits=c(1e-5, 1e+4),
+                breaks = scales::trans_breaks("log10", function(x) 10^x),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  xlab(bquote(TRV~(mg/kg/day~or~mg/m^3)))+ylab(bquote(RfD~(mg/kg/day)~or~RfC~(mg/m^3)))+
+  theme_bw()+
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())+
+  annotation_logticks(sides="lb")+
+  annotate("text", label=paste0("rho ==", etap.s, "~\n p~value == 0.05"), parse = TRUE, 
+           x=5e-4, y=1e+4)
+print(etap.cor)
+```
+
+##meta analysis for ETAP
+
+```{r meta}
+etap$log10ratio <- with(etap, log10(TRV.to.RfD.Ratio.))
+
+#standard error
+etap$se <- 2/(2*1.645)
+
+etap.meta <- rma(yi=log10ratio, sei=se, data=etap, slab=Chemical., level=90)
+predict(etap.meta)
+
+#meta-analysis table
+capture.output(etap.meta, predict(etap.meta), file="rma log10 ETAP TRV vs RfD for 21 chemicals.txt")
+```

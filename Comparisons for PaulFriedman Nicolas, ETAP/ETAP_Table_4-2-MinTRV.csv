@@ -1,0 +1,22 @@
+"Chemical.","TRV..mg.kg.day.or.mg.m3..","RfD.or.RfC..mg.kg.day.or.mg.m3..","Exposure.Duration..d..","Sex..Species..Tissue.","Reference.","Source..Sex..Species..Study.Type.","TRV.to.RfD.Ratio."
+"1,2,3-Trichloropropane",0.0018,0.004,91,"Female Mice, Liver","(Thomas et al. 2011)","IRIS 200961, Male Rats, Chronic",0.44
+"1,2,4-Tribromobenzene",0.0019,0.005,91,"Male Rats, Liver","(Thomas et al. 2013b)","IRIS 198765, Male Rats, Subchronic",0.38
+"2,2',3,3',4,4',5,5',6,6'-Decabromodiphenyl ether",0.012,0.007,5,"Male Rats, Liver","(Shockley et al. 2020)","IRIS 200866, Male Mice, Singe dose",1.64
+"2,2',4,4'-Tetrabromodiphenyl ether",0.0059,1e-04,5,"Male Rats, Liver","(Shockley et al. 2020)","IRIS 200867, Male Mice, Singe dose",58.89
+"2,3,4,6-Tetrachlorophenol",0.0087,0.03,14,"Male Rats, Liver","(Thomas et al. 2013b)","IRIS 198869, Male and Female Rats, Subchronic",0.29
+"Acrylamide",0.00027,0.002,31,"Male Mice, Hardarian Gland","(Chepelev et al. 2018)","IRIS 201033, Male Rats, Chronic",0.13
+"Allyl alcohol",0.00042,0.005,4,"Male Rats, Liver","(Johnson et al. 2020)","IRIS 1987, Male Rats, Subchronic",0.08
+"Benzo[a]pyrene",9.4e-05,3e-04,3,"Male Mice, Liver","(Moffat et al. 2015)","IRIS 201736, Rats, Developmental",0.31
+"Bromobenzene",0.00097,0.008,15,"Male Rats, Liver","(Johnson et al. 2020)","IRIS 200943, Male Mice, Subchronic",0.12
+"Chloroprenea",0.014,0.02,5,"Female Mice, Lung","(Thomas et al. 2013a)","IRIS 201047, Male and Female Rats, Female Mice, Chronic",0.68
+"Dichloroacetic acid",0.035,0.004,6,"Male Mice, Liver","(Cannizzo et al. 2022)","IRIS 200349, Male and Female Dogs, Subchronic",8.67
+"Furan",3.6e-05,0.001,90,"Male Rats, Liver","(Dong et al. 2016)","IRIS 1987, Male Mice, Subchronic",0.04
+"Myclobutanil",0.018,0.025,14,"Male Rats, Liver","(Bhat et al. 2013)","IRIS 198851, Male Rats, Chronic",0.71
+"Naphthalene",0.058,0.003,91,"Female Mice, Lung","(Thomas et al. 2011)","IRIS 199853, Male and Female Mice, Chronic",19.22
+"Naphthalenea",0.0052,0.003,91,"Male Rats, Nasal epithelium","(Clewell et al. 2014)","IRIS 199854, Male and Female Mice, Chronic",1.75
+"p-Toluidine",0.0051,0.004,5,"Male Rats, Liver","(Dunnick et al. 2017)","PPRTV 201257, Female Rats, Chronic",1.27
+"Pronamide",0.0018,0.075,90,"Male Rats, Liver","(Bianchi et al. 2021)","IRIS 198755, Dogs, Chronic",0.02
+"Propiconazole",0.028,0.013,30,"Male Mice, Liver","(Bhat et al. 2013)","IRIS 198856, Male Dogs, Chronic",2.15
+"Tetrachloroethylene",0.025,0.006,1,"Male Mice, Kidney","(Zhou et al. 2017)","IRIS 201258, Humans, NA",4.17
+"Triadimefon",0.029,0.03,30,"Male Mice, Liver","(Bhat et al. 2013)","IRIS 198759, Rats, Chronic",0.96
+"Trichloroethylene",1e-04,5e-04,1,"Male Mice, Kidney","(Zhou et al. 2017)","IRIS 201160, Mice and Rats, Developmental",0.2

@@ -1,0 +1,27 @@
+﻿Chemical,casn,POD,value,Sex,Bwa,DAF,Classification,UFs
+4-nitroaniline,100-01-6,BMDL,0.37,M,0.38,0.271438464,Intermediate,1
+caprolactam,105-60-2,NOAEL,50,M/F,0.1722278,0.222715941,Intermediate,1
+"1,4-dichlorobenzene",106-46-7,BMDL,7,F,10.1,0.616319393,Intermediate,1
+p-chloroaniline,106-47-8,LOAEL,1.4,M/F,0.152,0.215867065,Intermediate,1
+phenol,108-95-2,BMDL,93,F,0.338,0.26360562,Intermediate,1
+tris(2-chloroethyl)phosphate,115-96-8,BMDL,6.9,F,0.124,0.205154436,Flame retardant,3
+di-n-octyl phthalate,117-84-0,NOAEL,36.8,M,0.267,0.248515399,Plasticizer,1
+"tris(1,3-dichloro-2-propyl) phosphate",13674-87-8,BMDL,1.94,M,0.523,0.294002425,Flame retardant,1
+2-mercaptobenzothiazole,149-30-4,BMDL,14.8,F,0.124,0.205154436,Pesticide,10
+perfluorooctanesulfonic acid,1763-23-1,NOAEL,0.1,F,0.3542721,0.266722546,Surfactant,1
+mirex,2385-85-5,NOAEL,0.07,M,0.38,0.271438464,Pesticide,1
+potassium perfluorobutanesulfonate,29420-49-3,BMDL,22.09,F,0.033,0.147351301,Flame retardant,1
+perfluorononanoic acid,375-95-1,NOAEL,1,F,0.05065,0.164010009,Surfactant,1
+"p,p'-DDE",72-55-9,LOAEL,5,F,0.204,0.23234484,Pesticide,1
+cacodylic acid,75-60-5,BMDL,1.8,F,0.0353,0.149854285,Pesticide,1
+hexachlorocyclopentadiene,77-47-4,BMDL,6,F,0.124,0.205154436,Intermediate,3
+methyl ethyl ketone,78-93-3,LED05,639,F,0.1865,0.227193132,Food additive,1
+butyl benzyl phthalate,85-68-7,NOAEL,159,M,0.18,0.225187156,Plasticizer,10
+biphenyl,92-52-4,BMDL,58,M,0.38,0.271438464,Intermediate,1
+phenothiazine,92-84-2,NOAEL,1.59,F,1.97,0.409583117,Intermediate,10
+"2,4,5-trichlorophenoxyacetic acid",93-76-5,NOAEL,3,M/F,0.4305,0.280039168,Pesticide,1
+"1,2,4,5-tetrachlorobenzene",95-94-3,LOAEL,0.041,M,0.057,0.168925107,Intermediate,1
+nitrobenzene,98-95-3,BMDL,1.8,M,0.18,0.225187156,Intermediate,3
+3-nitrotoluene,99-08-1,BMDL,1.1,F,0.124,0.205154436,Intermediate,10
+"1,3-dinitrobenzene",99-65-0,NOAEL,0.4,M/F,0.152,0.215867065,Intermediate,10
+4-nitrotoluene,99-99-0,BMDL,1.1,M/F,0.152,0.215867065,Intermediate,1
