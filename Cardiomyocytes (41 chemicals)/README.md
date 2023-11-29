@@ -1,5 +1,5 @@
-## Cardiomyocytes (41 chemicals)
-  - POD database
+# Cardiomyocytes (41 chemicals)
+  - ## POD database
     1) Sample benchmark doses (BMDs) from Bayesian model averaging BMDs in animal doses
        - Input files:
          - All BBMD dose-response data files are in repository: BBMD data input
@@ -44,34 +44,34 @@
            - ToxCast AC50 5perc and med.csv
            - 26 chemicals Cardio PODs.csv         
        - Script: combine 15+26 chemicals.R
-  - Input script:
+  - ## Input scripts:
     1) Correlation analysis of in vitro and in vivo PODs: 
-        - Input files: (Reposirory: POD database)
+        - Input files: (Repository: POD database)
           - #### in vivo POD data:
             - original POD x Css for 41 chemicals.csv
             - original POD x DAF x Css for 41 chemicals.csv
             - BBMD x Css for 41 chemicals.csv
             - HED x Css for 41 chemicals.csv
-          - in vitro POD data:
+          - #### in vitro POD data:
             - 41 chemicals toxcast POD.csv
             - 41 chemicals cardio 5 donors POD.csv
         - Script: in vivo in vitro POD scatter plot 41 chemicals (5 donors cardio).Rmd
         - Output file: in vivo in vitro scatter plot for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 6)
     3) Meta-analysis of log10(in vitro POD/in vivo POD): 
-        - Input files: (Reposirory: POD database)
-          - in vivo POD data:
-            - 15 chemicals orig POD x Css.csv
-            - original POD x DAF x Css for 15 chemicals.csv
-            - BMD x Css for 15 chemicals.csv
-            - HED x Css for 15 chemicals.csv
-          - in vitro POD data:
-            - toxcast ac50.csv
-            - cellline POD distribution for 15 chemicals.csv
-        - Script: Meta analysis by ratio.Rmd
+        - Input files: (Repository: POD database)
+          - #### in vivo POD data:
+            - original POD x Css for 41 chemicals.csv
+            - original POD x DAF x Css for 41 chemicals.csv
+            - BBMD x Css for 41 chemicals.csv
+            - HED x Css for 41 chemicals.csv
+          - #### in vitro POD data:
+            - 41 chemicals toxcast POD.csv
+            - 41 chemicals cardio 5 donors POD.csv
+        - Script: Meta analysis by ratio for cardiomyocytes (5 donors cardio).Rmd
         - Output files:
-          - meta-analysis in vitro vs reg POD animal.pdf
-          - meta-analysis in vitro vs reg POD human.pdf
-          - meta-analysis in vitro vs BMA BMD animal.pdf
-          -  meta-analysis in vitro vs BMA BMD human.pdf (Manuscript Figure 3)
-          - rma log10 ToxCast to in vivo ratio.txt (Manuscript Table 3)
-          - rma log10 iPSCLCL to in vivo ratio.txt (Manuscript Table 3)
+          - meta-analysis in vitro vs reg POD animal for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 7)
+          - meta-analysis in vitro vs reg POD human for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 8)
+          - meta-analysis in vitro vs BMA BMD animal for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 9)
+          - meta-analysis in vitro vs BMA BMD human for 41 chemicals (5 donors cardio).pdf (Manuscript Figure 4)
+          - rma log10 ToxCast to in vivo ratio for 41 chemicals (5 donors cardio).txt (Manuscript Table 4)
+          - rma log10 Cardiomyocytes to in vivo ratio for 41 chemicals (5 donors cardio).txt (Manuscript Table 4)
