@@ -1,4 +1,5 @@
 # Cardiomyocytes (41 chemicals)
+
   - ## POD database
     1) Sample benchmark doses (BMDs) from Bayesian model averaging BMDs in animal doses
        - Input files:
@@ -44,7 +45,7 @@
            - ToxCast AC50 5perc and med.csv
            - 26 chemicals Cardio PODs.csv         
        - Script: combine 15+26 chemicals.R
-  - ## Input scripts:
+  - ## Concordance analyses:
     1) Correlation analysis of in vitro and in vivo PODs
         - Input files: (Repository: POD database)
           - #### in vivo POD data:
