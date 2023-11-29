@@ -1,4 +1,5 @@
 # Six-cell-type (15 chemicals)
+
   - ## POD database
     1) Convert oral in vivo PODs to steady state concentrations
        - Input files:
@@ -14,12 +15,12 @@
        - Script: dose-response data for 15 chemicals.Rmd
        - Output file:
          - All plots in repository: dose-response plots (Supplementary Material File S2.pdf)
-  - ## Input scripts:
+  - ## Concordance analyses:
     1) Analyze the most sensitive cell types from iPSC-Neurons, induced pluripotent stem cell (iPSC)-hepatocytes, iPSC-endothelial cell, iPSC-cardiomyocyte, human umbilical vein endothelial cell (HUVEC), and lymphoblastoid cell lines (LCLs)
        - Input file: cellline POD distribution for 15 chemicals.csv - original file in repository: POD database
        - Script: the most sensitive cell types histogram.R
        - Output file: the most sensitive cell types for 15 chemicals.pdf (Supplementary Fig. 1)
-    2) Correlation analysis of in vitro and in vivo PODs: 
+    2) Correlation analysis of in vitro and in vivo PODs
         - Input files: (Repository: POD database)
           - #### in vivo POD data:
             - 15 chemicals orig POD x Css.csv
@@ -31,7 +32,7 @@
             - cellline POD distribution for 15 chemicals.csv
         - Script: in vivo in vitro POD scatter plot 15 chemicals.Rmd
         - Output file: in vivo in vitro scatter plot for 15 chemicals.pdf (Supplementary Fig. 2)
-    3) Meta-analysis of log10(in vitro POD/in vivo POD): 
+    3) Meta-analysis of log10(in vitro POD/in vivo POD)
         - Input files: (Repository: POD database)
           - #### in vivo POD data:
             - 15 chemicals orig POD x Css.csv
