@@ -4,12 +4,14 @@
        - Input files:
          - 15 chemicals orig POD.csv
          - All BBMD dose-response data files are in repository: BBMD input
+       - Script: in vivo POD and Css 15 chemicals.Rmd
     2) Generate Bayesian model averaging benchmark dose plots and compare with regulatory PODs
        - Input files:
          - Chemical list: 15 chemicals orig POD x Css.csv
          - Continuous dataset: dose-response_cont.csv
          - Dichotomous dataset: dose-response_dich.csv
          - All BBMD dose-response data files are in repository: BBMD input
+       - Script: dose-response data for 15 chemicals.Rmd
        - Output file:
          - All plots in repository: dose-response plots (Supplementary Material File S2.pdf)
   - Input script:
@@ -17,7 +19,7 @@
        - Input file: cellline POD distribution for 15 chemicals.csv - original file in repository: POD database
        - Script: the most sensitive cell types histogram.R
        - Output file: the most sensitive cell types for 15 chemicals.pdf (Supplementary Fig. 1)
-    2)  Correlation analysis of in vitro and in vivo PODs: 
+    2) Correlation analysis of in vitro and in vivo PODs: 
         - Input files: (Reposirory: POD database)
           - in vivo POD data:
             - 15 chemicals orig POD x Css.csv
@@ -41,9 +43,9 @@
             - cellline POD distribution for 15 chemicals.csv
         - Script: Meta analysis by ratio.Rmd
         - Output files:
-          - meta-analysis in vitro vs reg POD animal.pdf
-          - meta-analysis in vitro vs reg POD human.pdf
-          - meta-analysis in vitro vs BMA BMD animal.pdf
-          -  meta-analysis in vitro vs BMA BMD human.pdf (Manuscript Figure 3)
+          - meta-analysis in vitro vs reg POD animal.pdf (Supplementary Fig. 3)
+          - meta-analysis in vitro vs reg POD human.pdf (Supplementary Fig. 4)
+          - meta-analysis in vitro vs BMA BMD animal.pdf (Supplementary Fig. 5)
+          - meta-analysis in vitro vs BMA BMD human.pdf (Manuscript Figure 3)
           - rma log10 ToxCast to in vivo ratio.txt (Manuscript Table 3)
           - rma log10 iPSCLCL to in vivo ratio.txt (Manuscript Table 3)
