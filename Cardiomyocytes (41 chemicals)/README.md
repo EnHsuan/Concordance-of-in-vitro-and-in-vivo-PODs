@@ -45,7 +45,7 @@
            - 26 chemicals Cardio PODs.csv         
        - Script: combine 15+26 chemicals.R
   - ## Input scripts:
-    1) Correlation analysis of in vitro and in vivo PODs: 
+    1) Correlation analysis of in vitro and in vivo PODs
         - Input files: (Repository: POD database)
           - #### in vivo POD data:
             - original POD x Css for 41 chemicals.csv
@@ -57,7 +57,7 @@
             - 41 chemicals cardio 5 donors POD.csv
         - Script: in vivo in vitro POD scatter plot 41 chemicals (5 donors cardio).Rmd
         - Output file: in vivo in vitro scatter plot for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 6)
-    3) Meta-analysis of log10(in vitro POD/in vivo POD): 
+    2) Meta-analysis of log10(in vitro POD/in vivo POD)
         - Input files: (Repository: POD database)
           - #### in vivo POD data:
             - original POD x Css for 41 chemicals.csv
