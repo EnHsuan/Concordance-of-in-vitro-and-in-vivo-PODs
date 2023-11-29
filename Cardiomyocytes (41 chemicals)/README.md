@@ -53,10 +53,10 @@
             - BBMD x Css for 41 chemicals.csv
             - HED x Css for 41 chemicals.csv
           - in vitro POD data:
-            - toxcast ac50.csv
-            - cellline POD distribution for 15 chemicals.csv
+            - 41 chemicals toxcast POD.csv
+            - 41 chemicals cardio 5 donors POD.csv
         - Script: in vivo in vitro POD scatter plot 41 chemicals (5 donors cardio).Rmd
-        - Output file: in vivo in vitro scatter plot for 15 chemicals.pdf (Supplementary Fig. 2)
+        - Output file: in vivo in vitro scatter plot for 41 chemicals (5 donors cardio).pdf (Supplementary Fig. 6)
     3) Meta-analysis of log10(in vitro POD/in vivo POD): 
         - Input files: (Reposirory: POD database)
           - in vivo POD data:
