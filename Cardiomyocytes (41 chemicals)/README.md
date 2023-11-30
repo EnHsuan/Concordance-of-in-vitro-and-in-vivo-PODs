@@ -50,7 +50,7 @@
       - original POD x Css for 41 chemicals.csv
       - BBMD x Css for 41 chemicals.csv
     - Script: traditional POD vs BBMD plots.R
-    - Output file: regulatory PODa vs BMA BMDa plots.pdf
+    - Output file: regulatory PODa vs BMA BMDa plots.pdf (Manuscript Figure 2)
   - ## Concordance analyses:
     1) Correlation analysis of in vitro and in vivo PODs
         - Input files: (Repository: POD database)
