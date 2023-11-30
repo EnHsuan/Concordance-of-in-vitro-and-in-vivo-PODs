@@ -96,6 +96,13 @@ oed.noael <- ggplot(ni, aes(x=oed.AC50p5, y=NOAEL))+
 print(oed.noael)
 ```
 
+## generate corrlation plot file
+
+```{r plot}
+plot <- ggarrange(nam.pod, oed.noael, nrow = 2, labels = c("A","B"))
+ggsave(plot, file="correlation plots for Paul Friedman et al (2020) and Nicolas et al (2022).pdf", width=5, height=10)
+```
+
 ##meta analysis for Nicolas et al. 2022
 all chemicals
 
@@ -139,6 +146,7 @@ etap.cor <- ggplot(etap, aes(x=TRV..mg.kg.day.or.mg.m3.., y=RfD.or.RfC..mg.kg.da
   annotate("text", label=paste0("rho ==", etap.s, "~\n p~value == 0.05"), parse = TRUE, 
            x=5e-4, y=1e+4)
 print(etap.cor)
+ggsave(etap.cor, file="correlation plot for ETAP.pdf", width=5, height=5)
 ```
 
 ##meta analysis for ETAP

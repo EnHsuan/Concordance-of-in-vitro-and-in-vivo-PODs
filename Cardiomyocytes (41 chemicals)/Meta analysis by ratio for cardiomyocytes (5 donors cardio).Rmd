@@ -130,7 +130,7 @@ dev.off()
 
 ##supplemental plots
 #reorder by toxcast
-pdf(file="reorder meta-analysis in vitro vs reg POD animal for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
+pdf(file="meta-analysis in vitro vs reg POD animal for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
 par(mfrow=c(1,2))
 forest(pod.tox.rma, order=pod.tox$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/Reg POD"[a]~"x Css)"), header="Chemicals", alim=c(-6,6))
 title("A", adj = 0)
@@ -144,7 +144,7 @@ dev.off()
 
 #regulatory POD human
 #reorder by toxcast
-pdf(file="reorder meta-analysis in vitro vs reg POD human for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
+pdf(file="meta-analysis in vitro vs reg POD human for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
 par(mfrow=c(1,2))
 forest(poddaf.tox.rma, order=poddaf.tox$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/Reg POD"[h]~"x Css)"), header="Chemicals", alim=c(-6,6))
 title("A", adj = 0)
@@ -157,7 +157,7 @@ dev.off()
 
 #BMA BMD animal
 #reorder by toxcast
-pdf(file="reorder meta-analysis in vitro vs BMA BMD animal for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
+pdf(file="meta-analysis in vitro vs BMA BMD animal for 41 chemicals (5 donors cardio).pdf", width=16, height=13, pointsize=12)
 par(mfrow=c(1,2))
 forest(bbmd.tox.rma, order=BMD.tox$tox.log10ratio, decreasing=TRUE, addpred = TRUE, xlab=expression("log"[10]*"(ToxCast POD/BMA BMD"[a]~"x Css)"), header="Chemicals", alim=c(-6,6))
 title("A", adj = 0)
