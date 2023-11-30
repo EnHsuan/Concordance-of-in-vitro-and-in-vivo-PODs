@@ -8,8 +8,8 @@ Correlation analysis and meta-analysis
   - ETAP: ETAP_Table_4-2-MinTRV.csv
 - Script: Comparisons for PaulFriedman Nicolas, ETAP.Rmd
 - Output files:
-  - correlation plot for Paul Friedman et al (2020) and Nicolas et al (2022).pdf
-  - correlation plots for ETAP.pdf
+  - correlation plot for Paul Friedman et al (2020) and Nicolas et al (2022).pdf (Supplementary Fig. 10)
+  - correlation plots for ETAP.pdf (Supplementary Fig. 11)
   - Paul Friedman et al. (2020) study:  rma log10 Paul Friedman NAM to traditional POD ratio for all chemicals.txt
   - Nicolas et al. (2022) study: rma log10 Nicolas et al 2022 OED vs NOAEL.txt
   - ETAP: rma log10 ETAP TRV vs RfD for 21 chemicals.txt

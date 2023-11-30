@@ -19,6 +19,7 @@
     4) Generate Bayesian model averaging benchmark dose plots and compare with regulatory PODs
     5) Derive ToxCast PODs
     7) Combine six-cell-type chemicals and cardiomyocyte chemicals
+  - Compare regulatory in vivo PODs in animal doses and Bayesian model averaging benchmark doses
   - Concordance analyses:
     1) Correlation analysis of in vitro and in vivo PODs
     2) Meta-analysis of log10(in vitro POD/in vivo POD)
