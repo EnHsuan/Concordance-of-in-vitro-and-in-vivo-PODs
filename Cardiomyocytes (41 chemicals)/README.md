@@ -45,7 +45,7 @@
            - ToxCast AC50 5perc and med.csv
            - 26 chemicals Cardio PODs.csv         
        - Script: combine 15+26 chemicals.R
-  - ## Compare regulatory in vivo PODs in animal doses and Bayesian model averaging benchmark doses
+  - ## Compare regulatory in vivo PODs in animal doses and Bayesian model averaging BMDs
     - Input files: (Repository: POD database)
       - original POD x Css for 41 chemicals.csv
       - BBMD x Css for 41 chemicals.csv
